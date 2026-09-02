@@ -1,0 +1,284 @@
+/* JerOS Style Sheet */
+
+/* ---------- RESET ---------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    user-select: none;
+}
+:root {
+    --primary-color: #1e1e1e;
+    --secondary-color: #2e2e2e;
+    --bg-glass: rgba(18, 18, 26, 0.72);
+    --border-glass: rgba(255, 255, 255, 0.18);
+    --text-primary: #edf0f5;
+    --text-muted: #656a78;
+    --text-secondary: #8e92a2;
+    --accent: #5f7cff;                    /* ശരിയായി */
+    --radius-window: 14px;                /* ശരിയായി */
+    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.6); /* ശരിയായി */
+    --font: 'Inter', -apple-system, sans-serif; /* ശരിയായി */
+}
+body {
+    font-family: var(--font);
+    background-color: var(--bg-glass);
+    color: var(--text-primary);
+    overflow: hidden;
+    height: 100vh;
+}
+/* logo */
+.jeros-logo { width: 48px; height: 48px; }
+.jeros-logo .bg-shape { fill: var(--accent); opacity: 0.15; rx: 14; }
+.jeros-logo .ring { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 80 100; animation: orbitSpin 8s linear infinite; }
+.jeros-logo .j-letter { fill: #fff; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 24px; }
+.jeros-logo .dot { fill: #fff; opacity: 0.7; }
+@keyframes orbitSpin {
+0% { stroke-dashoffset: 0; }
+100% { stroke-dashoffset: -200; }
+}
+.logo-small { width: 28px; height: 28px; }
+.logo-medium { width: 36px; height: 36px; }
+.logo-large { width: 56px; height: 56px; }
+
+/* boot */
+#boot {
+position:fixed;
+inset:0;
+background:#0a0a0f;
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+z-index:9999;
+transition: opacity 0.6s ease, visibility 0.6s ease;
+gap:20px;
+}
+#boot.hidden { opacity:0; visibility:hidden; pointer-events:none; }
+#boot .boot-title { font-size:2.4rem; font-weight:700; color:#edf0f5; letter-spacing:-0.5px; }
+#boot .boot-title span { color: var(--accent); }
+#boot .loader { width:200px; height:2px; background:rgba(255,255,255,0.04); border-radius:4px; overflow:hidden; }
+#boot .loader .bar { width:0%; height:100%; background:var(--accent); animation:bootLoad 1.6s ease forwards; }
+@keyframes bootLoad { 0% { width:0%; } 100% { width:100%; } }
+#boot .status { font-size:0.65rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:1.2px; }
+
+/* desktop - main area */
+#desktop {
+position: relative;
+width: 100vw;
+height: 100vh;
+overflow: hidden;
+transition: background 0.5s ease;
+}
+/* subtle texture */
+#desktop::before {
+content:'';
+position:absolute;
+inset:0;
+background-image: linear-gradient(rgba(255,255,255,0.008) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.008) 1px, transparent 1px);
+background-size:40px 40px;
+pointer-events:none;
+}
+
+/* wallpapers */
+.wallpaper-1 { background: radial-gradient(ellipse at 50% 30%, #181820, #0a0a0f 80%); }
+.wallpaper-2 { background: radial-gradient(ellipse at 70% 20%, #1a1a2e, #0f0f1a 80%); }
+.wallpaper-3 { background: radial-gradient(ellipse at 30% 50%, #1e1428, #0a0a0f 80%); }
+
+/* desktop icons */
+#icons {
+position:absolute;
+top:28px;
+left:28px;
+display:flex;
+flex-direction:column;
+gap:10px;
+z-index:5;
+}
+.icon-item {                                   /* ശരിയായി (icon_item അല്ല) */
+display:flex;
+flex-direction:column;
+align-items:center;
+justify-content:center;
+width:68px;
+height:72px;
+border-radius:var(--radius-sm);
+background:transparent;
+border:1px solid transparent;
+transition: 0.2s ease;
+cursor:default;
+color:var(--text-secondary);
+font-size:0.5rem;
+font-weight:500;
+gap:4px;
+padding:6px;
+text-align:center;
+opacity:0.5;
+}
+.icon-item .ico { font-size:1.8rem; opacity:0.7; filter:drop-shadow(0 2px 8px rgba(0,0,0,0.4)); }
+.icon-item .lbl { font-size:0.5rem; color:var(--text-muted); margin-top:2px; }
+.icon-item:hover { background:rgba(255,255,255,0.04); border-color:rgba(255,255,255,0.06); color:#fff; opacity:1; transform:translateY(-2px); }
+.icon-item:active { transform:scale(0.95); }
+
+/* taskbar */
+#taskbar {
+position:absolute;
+bottom:16px;
+left:50%;
+transform:translateX(-50%);
+width:94%;
+max-width:1100px;
+height:56px;
+background:var(--bg-glass);
+backdrop-filter:blur(24px);
+-webkit-backdrop-filter:blur(24px);
+border:1px solid var(--border-glass);
+border-radius:16px;
+display:flex;
+align-items:center;
+padding:0 18px;
+gap:12px;
+z-index:999;
+box-shadow:var(--shadow-glass);
+}
+#taskbar .logo-area { display:flex; align-items:center; gap:10px; padding:4px 12px 4px 8px; border-radius:var(--radius-sm); transition:0.2s ease; cursor:pointer; }
+#taskbar .logo-area:hover { background:rgba(255,255,255,0.04); }
+#taskbar .logo-text { font-weight:600; font-size:0.85rem; letter-spacing:-0.3px; color:var(--text-primary); }
+#taskbar .logo-text span { color:var(--text-muted); font-weight:400; }
+#taskbar-center { flex:1; display:flex; justify-content:center; color:var(--text-muted); font-size:0.6rem; font-weight:400; letter-spacing:0.5px; text-transform:uppercase; opacity:0.3; }
+#tray { display:flex; align-items:center; gap:14px; color:var(--text-secondary); font-size:0.75rem; font-weight:500; padding-left:14px; border-left:1px solid rgba(255,255,255,0.04); }
+#tray .dt { text-align:right; line-height:1.2; }
+#tray .tm { font-size:0.8rem; color:var(--text-primary); }
+#tray .dt2 { font-size:0.55rem; color:var(--text-muted); }
+
+/* ---------- START MENU ---------- */
+#menu {
+    position: absolute;
+    bottom: 76px;
+    left: 20px;
+    width: 380px;
+    max-height: 440px;
+    background: rgba(14, 14, 20, 0.92);
+    backdrop-filter: blur(40px);
+    -webkit-backdrop-filter: blur(40px);
+    border: 1px solid rgba(255, 255, 255, 0.04);
+    border-radius: 16px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    display: none;
+    flex-direction: column;
+    z-index: 1000;
+    animation: menuPop 0.15s ease;
+}
+#menu.open { display: flex; }
+@keyframes menuPop {
+    from{ opacity:0; transform: scale(0.96) translateY(8px); }
+    to { opacity:1; transform: scale(1) translateY(0); }
+}
+#menu .mhead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: var(--text-primary);
+  margin-bottom: 14px;  
+}
+#menu .search {
+    background: rgba(255, 255, 255, 0.02);
+    border: 1px solid rgba(255, 255, 255, 0.03);
+    border-radius: var(--radius-sm);
+    padding: 10px 14px;
+    color: var(--text-primary);
+    font-size: 0.8rem;
+    font-family: var(--font);
+    outline: none;
+    margin-bottom: 14px;
+    transition: 0.2s ease;
+}
+#menu .search:focus {
+    border-color: var(--accent);
+    background: rgba(255, 255, 255, 0.04);
+}
+#menu .search::placeholder {
+    color: var(--text-muted);
+}
+#menu .grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 6px;
+    overflow-y: auto;
+    flex: 1;
+}
+#menu .grid .app {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 4px;
+    padding: 12px 4px;
+    border-radius: var(--radius-sm);
+    background: transparent;
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: 0.2s ease;
+    color: var(--text-secondary);
+    font-size: 0.6rem;
+    font-weight: 500;
+}
+#menu .grid .app:hover {
+    background: rgba(255, 255, 255, 0.04);
+    border-color: rgba(255, 255, 255, 0.06);
+    color: #fff;
+}
+#menu .grid .app .ico {
+    font-size: 1.6rem;
+    opacity: 0.8;
+    width: 1.6rem;
+    text-align: center;
+}
+/* ---------- wallpaper selector ---------- */
+.wallpaper-option {
+    display: inline-block;
+    width: 40px;
+    height: 40px;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 2px solid transparent;
+    transition: 0.2s ease;
+}
+.wallpaper-option:hover {
+    border-color: var(--accent);
+}
+
+/* ---------- CUSTOM SCROLLBAR ---------- */
+::-webkit-scrollbar {
+    width: 4px;
+}
+::-webkit-scrollbar-track {
+    background: transparent;
+}
+::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: 8px;
+}
+::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.15);
+}
+
+/*---------- responsive ----------*/
+@media (max-width: 600px) { 
+    #taskbar {
+        width: 96%;
+        padding: 0 12px;
+        height: 50px;
+    }
+    #taskbar .logo-text { display: none; }
+    #tray .dt2 { display: none; }              /* ശരിയായി */
+    #menu { width: 90%; left: 5%; bottom: 70px; }
+    .icon-item {
+        width: 54px;
+        height: 58px;   
+    }
+    .icon-item .ico { font-size: 1.4rem; }
+    #boot .boot-title { font-size: 2rem; }
+}
