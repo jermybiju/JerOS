@@ -1,4 +1,4 @@
-/* JerOS Style Sheet */
+/* JerOS Style Sheet — Full Theme System */
 
 * {
     margin: 0;
@@ -6,35 +6,75 @@
     box-sizing: border-box;
     user-select: none;
 }
+
 :root {
     --bg-primary: #0a0a12;
     --bg-secondary: #12121a;
     --bg-glass: rgba(16, 16, 26, 0.72);
+    --bg-window: rgba(20, 20, 30, 0.75);
+    --bg-menu: rgba(14, 14, 22, 0.92);
+    --bg-taskbar: rgba(10, 10, 20, 0.72);
+    --bg-notification: rgba(16, 16, 24, 0.92);
+    --bg-context: rgba(16, 16, 24, 0.92);
+    --bg-card: rgba(255,255,255,0.02);
+    --bg-input: rgba(255,255,255,0.02);
+    --bg-textarea: rgba(0,0,0,0.3);
     --border-glass: rgba(255, 255, 255, 0.06);
+    --border-input: rgba(255,255,255,0.04);
     --text-primary: #f0f2f8;
-    --text-muted: #6a6a7e;
     --text-secondary: #9a9ab0;
+    --text-muted: #6a6a7e;
     --accent: #7a9cff;
     --accent-glow: rgba(122, 156, 255, 0.2);
+    --shadow-window: 0 25px 50px rgba(0,0,0,0.5);
+    --shadow-glass: 0 8px 32px rgba(0,0,0,0.5);
+    --shadow-menu: 0 20px 60px rgba(0,0,0,0.8);
+    --shadow-notif: 0 12px 40px rgba(0,0,0,0.5);
     --radius-window: 16px;
     --radius-sm: 8px;
-    --shadow-glass: 0 8px 32px rgba(0, 0, 0, 0.5);
     --font: 'Inter', -apple-system, sans-serif;
 }
+
+.light-mode {
+    --bg-primary: #eef0f5;
+    --bg-secondary: #d5d8e0;
+    --bg-glass: rgba(255,255,255,0.7);
+    --bg-window: rgba(255,255,255,0.85);
+    --bg-menu: rgba(255,255,255,0.92);
+    --bg-taskbar: rgba(255,255,255,0.75);
+    --bg-notification: rgba(255,255,255,0.92);
+    --bg-context: rgba(255,255,255,0.92);
+    --bg-card: rgba(0,0,0,0.02);
+    --bg-input: rgba(0,0,0,0.03);
+    --bg-textarea: rgba(0,0,0,0.05);
+    --border-glass: rgba(0,0,0,0.06);
+    --border-input: rgba(0,0,0,0.08);
+    --text-primary: #1a1a2e;
+    --text-secondary: #4a4a6a;
+    --text-muted: #7a7a8e;
+    --accent: #5f7cff;
+    --accent-glow: rgba(95,124,255,0.15);
+    --shadow-window: 0 25px 50px rgba(0,0,0,0.15);
+    --shadow-glass: 0 8px 32px rgba(0,0,0,0.08);
+    --shadow-menu: 0 20px 60px rgba(0,0,0,0.12);
+    --shadow-notif: 0 12px 40px rgba(0,0,0,0.1);
+}
+
 body {
     font-family: var(--font);
     background: var(--bg-primary);
     color: var(--text-primary);
     overflow: hidden;
     height: 100vh;
+    transition: background 0.3s ease, color 0.3s ease;
 }
 
 /* LOGO */
 .jeros-logo { width: 48px; height: 48px; }
 .jeros-logo .bg-shape { fill: var(--accent); opacity: 0.15; rx: 14; }
 .jeros-logo .ring { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 80 100; animation: orbitSpin 8s linear infinite; }
-.jeros-logo .j-letter { fill: #fff; font-family: 'Inter', sans-serif; font-weight: 700; font-size: 24px; }
-.jeros-logo .dot { fill: #fff; opacity: 0.7; }
+.jeros-logo .j-letter { fill: var(--text-primary); font-family: 'Inter', sans-serif; font-weight: 700; font-size: 24px; }
+.jeros-logo .dot { fill: var(--text-primary); opacity: 0.7; }
 @keyframes orbitSpin {
     0% { stroke-dashoffset: 0; }
     100% { stroke-dashoffset: -200; }
@@ -47,7 +87,7 @@ body {
 #boot {
     position: fixed;
     inset: 0;
-    background: #0a0a12;
+    background: var(--bg-primary);
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -57,7 +97,7 @@ body {
     gap: 20px;
 }
 #boot.hidden { opacity: 0; visibility: hidden; pointer-events: none; }
-#boot .boot-title { font-size: 2.4rem; font-weight: 700; color: #f0f2f8; letter-spacing: -0.5px; }
+#boot .boot-title { font-size: 2.4rem; font-weight: 700; color: var(--text-primary); letter-spacing: -0.5px; }
 #boot .boot-title span { color: var(--accent); }
 #boot .loader { width: 200px; height: 2px; background: rgba(255,255,255,0.04); border-radius: 4px; overflow: hidden; }
 #boot .loader .bar { width: 0%; height: 100%; background: var(--accent); animation: bootLoad 1.6s ease forwards; }
@@ -86,7 +126,6 @@ body {
     pointer-events: none;
 }
 
-/* WALLPAPERS */
 .wallpaper-1 { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); }
 .wallpaper-2 { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); }
 .wallpaper-3 { background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d); }
@@ -122,8 +161,8 @@ body {
     opacity: 0.6;
 }
 .icon-item .ico { font-size: 2.2rem; opacity: 0.9; color: var(--accent); }
-.icon-item .lbl { font-size: 0.6rem; font-weight: 600; color: var(--text-secondary); }
-.icon-item:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.06); color: #fff; opacity: 1; transform: translateY(-4px); }
+.icon-item .lbl { font-size: 0.6rem; font-weight: 600; color: var(--text-secondary); opacity: 1; }
+.icon-item:hover { background: var(--bg-card); border-color: var(--border-glass); color: var(--text-primary); opacity: 1; transform: translateY(-4px); }
 .icon-item:active { transform: scale(0.95); }
 
 /* TASKBAR */
@@ -135,24 +174,24 @@ body {
     width: 94%;
     max-width: 1100px;
     height: 56px;
-    background: rgba(10, 10, 20, 0.72);
+    background: var(--bg-taskbar);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255, 255, 255, 0.04);
+    border: 1px solid var(--border-glass);
     border-radius: 16px;
     display: flex;
     align-items: center;
     padding: 0 18px;
     gap: 12px;
     z-index: 999;
-    box-shadow: 0 -4px 30px rgba(0, 0, 0, 0.3);
+    box-shadow: var(--shadow-glass);
 }
 #taskbar .logo-area { display: flex; align-items: center; gap: 10px; padding: 4px 12px 4px 8px; border-radius: var(--radius-sm); transition: 0.2s ease; cursor: pointer; }
-#taskbar .logo-area:hover { background: rgba(255,255,255,0.04); }
+#taskbar .logo-area:hover { background: var(--bg-card); }
 #taskbar .logo-text { font-weight: 600; font-size: 0.85rem; letter-spacing: -0.3px; color: var(--text-primary); }
 #taskbar .logo-text span { color: var(--text-muted); font-weight: 400; }
 #taskbar-center { flex: 1; display: flex; justify-content: center; color: var(--text-muted); font-size: 0.6rem; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.4; }
-#tray { display: flex; align-items: center; gap: 14px; color: var(--text-secondary); font-size: 0.75rem; font-weight: 500; padding-left: 14px; border-left: 1px solid rgba(255,255,255,0.04); }
+#tray { display: flex; align-items: center; gap: 14px; color: var(--text-secondary); font-size: 0.75rem; font-weight: 500; padding-left: 14px; border-left: 1px solid var(--border-glass); }
 #tray .dt { text-align: right; line-height: 1.2; }
 #tray .tm { font-size: 0.8rem; color: var(--text-primary); }
 #tray .dt2 { font-size: 0.55rem; color: var(--text-muted); }
@@ -166,16 +205,17 @@ body {
     padding: 0 6px;
     height: 100%;
     align-items: center;
-    scrollbar-width: none;
+    scrollbar-width: thin;
 }
-#taskbar-apps::-webkit-scrollbar { display: none; }
+#taskbar-apps::-webkit-scrollbar { height: 4px; }
+#taskbar-apps::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.2); border-radius: 4px; }
 .taskbar-app {
     display: flex;
     align-items: center;
     font-size: 0.7rem;
     height: 30px;
     border-radius: 6px 4px 6px 4px;
-    background: rgba(255,255,255,0.03);
+    background: var(--bg-card);
     border: 1px solid transparent;
     transition: 0.2s ease;
     cursor: pointer;
@@ -184,9 +224,20 @@ body {
     white-space: nowrap;
     gap: 6px;
     font-weight: 500;
+    position: relative;
 }
-.taskbar-app:hover { background: rgba(255,255,255,0.06); color: #fff; }
-.taskbar-app.active { background: rgba(122, 156, 255, 0.15); color: #fff; border-color: rgba(122, 156, 255, 0.2); }
+.taskbar-app:hover { background: var(--bg-glass); color: var(--text-primary); }
+.taskbar-app.active { background: var(--accent-glow); color: var(--text-primary); border-color: var(--accent); }
+.taskbar-app .close-btn {
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 0.7rem;
+    padding: 0 2px;
+    margin-left: 4px;
+}
+.taskbar-app .close-btn:hover { color: #e74c6f; }
 
 /* START MENU */
 #menu {
@@ -195,12 +246,12 @@ body {
     left: 20px;
     width: 380px;
     max-height: 440px;
-    background: rgba(14, 14, 22, 0.92);
+    background: var(--bg-menu);
     backdrop-filter: blur(40px);
     -webkit-backdrop-filter: blur(40px);
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid var(--border-glass);
     border-radius: 16px;
-    box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+    box-shadow: var(--shadow-menu);
     padding: 20px;
     display: none;
     flex-direction: column;
@@ -213,12 +264,12 @@ body {
     to { opacity: 1; transform: scale(1) translateY(0); }
 }
 #menu .mhead { display: flex; align-items: center; gap: 12px; font-weight: 700; font-size: 0.8rem; color: var(--text-primary); margin-bottom: 14px; }
-#menu .search { background: rgba(255,255,255,0.02); border: 1px solid rgba(255,255,255,0.03); border-radius: var(--radius-sm); padding: 10px 14px; color: var(--text-primary); font-size: 0.8rem; font-family: var(--font); outline: none; margin-bottom: 14px; transition: 0.2s ease; }
-#menu .search:focus { border-color: var(--accent); background: rgba(255,255,255,0.04); }
+#menu .search { background: var(--bg-input); border: 1px solid var(--border-input); border-radius: var(--radius-sm); padding: 10px 14px; color: var(--text-primary); font-size: 0.8rem; font-family: var(--font); outline: none; margin-bottom: 14px; transition: 0.2s ease; }
+#menu .search:focus { border-color: var(--accent); background: var(--bg-card); }
 #menu .search::placeholder { color: var(--text-muted); }
 #menu .grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; overflow-y: auto; flex: 1; }
 #menu .grid .app { display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 12px 4px; border-radius: var(--radius-sm); background: transparent; border: 1px solid transparent; cursor: pointer; transition: 0.2s ease; color: var(--text-secondary); font-size: 0.6rem; font-weight: 500; }
-#menu .grid .app:hover { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.06); color: #fff; }
+#menu .grid .app:hover { background: var(--bg-card); border-color: var(--border-glass); color: var(--text-primary); }
 #menu .grid .app .ico { font-size: 1.6rem; opacity: 0.8; width: 1.6rem; text-align: center; }
 
 /* WINDOWS */
@@ -226,12 +277,12 @@ body {
     position: absolute;
     min-width: 320px;
     min-height: 180px;
-    background: rgba(20, 20, 30, 0.75);
+    background: var(--bg-window);
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
-    border: 1px solid rgba(255,255,255,0.04);
+    border: 1px solid var(--border-glass);
     border-radius: var(--radius-window);
-    box-shadow: 0 25px 50px rgba(0,0,0,0.5);
+    box-shadow: var(--shadow-window);
     display: flex;
     flex-direction: column;
     animation: windowOpen 0.25s cubic-bezier(0.4, 0, 0.2, 1);
@@ -249,8 +300,8 @@ body {
 }
 .window-header {
     padding: 10px 14px;
-    background: rgba(255,255,255,0.02);
-    border-bottom: 1px solid rgba(255,255,255,0.03);
+    background: var(--bg-card);
+    border-bottom: 1px solid var(--border-glass);
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -282,8 +333,8 @@ body {
     width: 26px;
     height: 26px;
     border-radius: 6px 4px 6px 4px;
-    background: rgba(255,255,255,0.03);
-    border: 1px solid rgba(255,255,255,0.03);
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
     display: flex;
     align-items: center;
     cursor: pointer;
@@ -293,7 +344,7 @@ body {
     font-weight: 500;
     justify-content: center;
 }
-.window-controls button:hover { background: rgba(255,255,255,0.06); color: #fff; }
+.window-controls button:hover { background: var(--bg-glass); color: var(--text-primary); }
 .window-controls .close:hover { background: #e74c6f; color: #fff; border-color: #e74c6f; }
 .window-body {
     flex: 1;
@@ -302,11 +353,34 @@ body {
     color: var(--text-secondary);
     font-size: 0.8rem;
     line-height: 1.7;
+    display: flex;
+    flex-direction: column;
 }
+.window-body > * { flex: 1; }
 .window-body::-webkit-scrollbar { width: 4px; }
-.window-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.06); border-radius: 8px; }
+.window-body::-webkit-scrollbar-thumb { background: var(--border-glass); border-radius: 8px; }
 
-/* WALLPAPER SELECTOR */
+.resize-handle {
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    width: 16px;
+    height: 16px;
+    cursor: nwse-resize;
+    z-index: 10;
+}
+.resize-handle::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    right: 4px;
+    width: 8px;
+    height: 8px;
+    border-right: 2px solid var(--text-muted);
+    border-bottom: 2px solid var(--text-muted);
+    opacity: 0.5;
+}
+
 .wallpaper-option {
     display: inline-block;
     width: 40px;
@@ -318,13 +392,11 @@ body {
 }
 .wallpaper-option:hover { border-color: var(--accent); }
 
-/* SCROLLBAR */
 ::-webkit-scrollbar { width: 4px; }
 ::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.08); border-radius: 8px; }
-::-webkit-scrollbar-thumb:hover { background: rgba(255,255,255,0.15); }
+::-webkit-scrollbar-thumb { background: var(--border-glass); border-radius: 8px; }
+::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
 
-/* RESPONSIVE */
 @media (max-width: 600px) {
     #taskbar { width: 96%; padding: 0 12px; height: 50px; }
     #taskbar .logo-text { display: none; }
@@ -335,3 +407,181 @@ body {
     #boot .boot-title { font-size: 2rem; }
     .window { min-width: 260px; }
 }
+
+/* FILE MANAGER */
+.file-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
+    gap: 12px;
+}
+.file-item {
+    display: flex;
+    flex-direction: center;
+    align-items: center;
+    padding: 12px 8px;
+    border-radius: var(--radius-sm);
+    background: var(--bg-card);
+    border: 1px solid transparent;
+    cursor: pointer;
+    transition: 0.2s;
+    color: var(--text-secondary);
+    font-size: 0.7rem;
+}
+.file-item:hover { background: var(--bg-glass); border-color: var(--border-glass); }
+.file-item .file-icon { font-size: 2rem; }
+.file-item .file-name { margin-top: 4px; word-break: break-all; text-align: center; }
+
+/* CALCULATOR */
+.calc-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px;
+    max-width: 280px;
+    width: 100%;
+    margin: 0 auto;
+    align-self: center;
+}
+.calc-grid .display {
+    grid-column: span 4;
+    background: var(--bg-textarea);
+    padding: 12px 16px;
+    border-radius: var(--radius-sm);
+    text-align: right;
+    font-size: 1.8rem;
+    font-weight: 300;
+    color: var(--text-primary);
+    font-family: 'Courier New', monospace;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.calc-grid button {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    padding: 14px 8px;
+    border-radius: var(--radius-sm);
+    font-size: 1rem;
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: 0.2s;
+    font-family: var(--font);
+    text-align: center;
+}
+.calc-grid button:hover { background: var(--bg-glass); }
+.calc-grid .op { color: var(--accent); }
+.calc-grid .eq { background: var(--accent); color: #fff; }
+.calc-grid .eq:hover { background: #6a8aff; }
+
+/* NOTES — Textarea full height, min-height 350px, buttons readable */
+.notes-body {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 2px 2px 0 2px;
+}
+.notes-body textarea {
+    width: 100%;
+    flex: 1;
+    min-height: 350px;
+    background: var(--bg-textarea);
+    border: 1px solid var(--border-glass);
+    border-radius: 6px;
+    color: var(--text-primary);
+    padding: 10px;
+    font-family: var(--font);
+    font-size: 0.9rem;
+    resize: vertical;
+    outline: none;
+    overflow: auto
+}
+.notes-body .note-actions {
+    display: flex;
+    gap: 6px;
+    margin-top: 2px;
+    flex-shrink: 0;
+    padding-bottom: 2px;
+}
+.notes-body .note-actions button {
+    background: var(--bg-card);
+    border: 1px solid var(--border-glass);
+    padding: 4px 14px;
+    border-radius: 4px;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.75rem;
+    transition: 0.2s;
+    line-height: 1.5;
+    height: 28px;
+}
+.notes-body .note-actions button:hover {
+    background: var(--bg-glass);
+    color: var(--text-primary);
+}
+
+/* NOTIFICATIONS */
+#notification-container {
+    position: fixed;
+    top: 20px;
+    z-index: 9999;
+    right: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-width: 340px;
+}
+.notification {
+    background: var(--bg-notification);
+    backdrop-filter: blur(16px);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    padding: 14px 18px;
+    box-shadow: var(--shadow-notif);
+    animation: notifIn 0.3s ease;
+    color: var(--text-primary);
+    font-size: 0.85rem;
+}
+.notification .notif-title { font-weight: 600; font-size: 0.9rem; }
+.notification .notif-body { color: var(--text-secondary); margin-top: 2px; }
+.notification .notif-close {
+    float: right;
+    background: none;
+    border: none;
+    color: var(--text-muted);
+    cursor: pointer;
+    font-size: 1rem;
+}
+@keyframes notifIn {
+    from { opacity: 0; transform: translateX(30px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+.notification-out { animation: notifOut 0.3s ease forwards; }
+@keyframes notifOut {
+    from { opacity: 1; transform: translateX(0); }
+    to { opacity: 0; transform: translateX(30px); }
+}
+
+/* CONTEXT MENU */
+#context-menu {
+    position: fixed;
+    background: var(--bg-context);
+    backdrop-filter: blur(20px);
+    border: 1px solid var(--border-glass);
+    border-radius: 12px;
+    box-shadow: var(--shadow-menu);
+    padding: 6px 0;
+    min-width: 180px;
+    z-index: 9998;
+    display: none;
+    animation: menuPop 0.12s ease;
+}
+#context-menu.open { display: block; }
+.ctx-item {
+    padding: 8px 18px;
+    color: var(--text-secondary);
+    font-size: 0.8rem;
+    cursor: pointer;
+    transition: 0.15s;
+    font-weight: 500;
+}
+.ctx-item:hover { background: var(--bg-card); color: var(--text-primary); }
+.ctx-divider { height: 1px; background: var(--border-glass); margin: 4px 12px; }
