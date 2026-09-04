@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JerOS · Phase 3</title>
+    <title>JerOS · Phase 6</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,400;14..32,500;14..32,600;14..32,700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
@@ -35,7 +35,7 @@
                     <text class="j-letter" x="10" y="24" fill="var(--text-primary)" font-family="Inter" font-weight="700" font-size="18">J</text>
                     <circle class="dot" cx="27" cy="14" r="2" fill="var(--text-primary)" fill-opacity="0.7"/>
                 </svg>
-                <span>Jer<span style="color:var(--accent);">OS</span> <span style="font-weight:400; font-size:0.55rem; color:var(--text-muted);">· v1.0</span></span>
+                <span>Jer<span style="color:var(--accent);">OS</span> <span style="font-weight:400; font-size:0.65rem; color:var(--text-muted);">· v1.0</span></span>
             </div>
             <input type="text" class="search" placeholder="Search apps..." id="searchInput" oninput="filterApps(this.value)">
             <div class="grid" id="appGrid">
@@ -47,11 +47,16 @@
                 <div class="app" data-app="files"><i class="fa-solid fa-folder ico"></i><span>Files</span></div>
                 <div class="app" data-app="calculator"><i class="fa-solid fa-calculator ico"></i><span>Calculator</span></div>
             </div>
-            <div style="margin-top:12px; padding-top:12px; border-top:1px solid var(--border-glass); display:flex; gap:10px; align-items:center;">
-                <span style="font-size:0.55rem; color:var(--text-muted);">Wallpaper:</span>
+            <!-- Wallpaper Upload -->
+            <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-glass); display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+                <span style="font-size:0.7rem; color:var(--text-secondary); font-weight:500;">🖼 Wallpaper</span>
                 <div class="wallpaper-option" style="background:linear-gradient(135deg, #0f0c29, #302b63, #24243e);" onclick="changeWallpaper('wallpaper-1')"></div>
                 <div class="wallpaper-option" style="background:linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);" onclick="changeWallpaper('wallpaper-2')"></div>
                 <div class="wallpaper-option" style="background:linear-gradient(135deg, #2d1b69, #11998e, #38ef7d);" onclick="changeWallpaper('wallpaper-3')"></div>
+                <label class="upload-btn" style="background:var(--bg-card); border:1px solid var(--border-glass); padding:6px 16px; border-radius:8px; color:var(--text-secondary); font-size:0.7rem; cursor:pointer; transition:0.2s; display:flex; align-items:center; gap:6px;">
+                    <i class="fa-solid fa-upload"></i> Upload
+                    <input type="file" accept="image/*" style="display:none;" id="wallpaperUpload" onchange="uploadWallpaper(event)">
+                </label>
             </div>
         </div>
 
@@ -66,6 +71,12 @@
                 <span class="logo-text">Jer<span>OS</span></span>
             </div>
             <div id="taskbar-apps"></div>
+            <!-- System Tray -->
+            <div id="system-tray">
+                <span class="tray-icon" id="tray-network" title="Network"><i class="fa-solid fa-wifi"></i></span>
+                <span class="tray-icon" id="tray-volume" title="Volume"><i class="fa-solid fa-volume-high"></i></span>
+                <span class="tray-icon" id="tray-battery" title="Battery"><i class="fa-solid fa-battery-three-quarters"></i></span>
+            </div>
             <div id="taskbar-center"><span style="font-size:0.55rem;">◆ JerOS</span></div>
             <div id="tray">
                 <div class="dt">
@@ -75,8 +86,36 @@
             </div>
         </div>
 
+        <!-- Taskbar Right-Click Menu -->
+        <div id="taskbar-context-menu">
+            <div class="ctx-item" id="ctx-taskmgr"><i class="fa-solid fa-list-check"></i> Task Manager</div>
+            <div class="ctx-item" id="ctx-settings"><i class="fa-solid fa-sliders"></i> Settings</div>
+            <div class="ctx-divider"></div>
+            <div class="ctx-item" id="ctx-startmenu"><i class="fa-solid fa-grid-2"></i> Start Menu</div>
+        </div>
+
+        <!-- Keyboard Shortcuts Popup -->
+        <div id="shortcuts-popup">
+            <div class="shortcuts-content">
+                <h3 style="color:var(--text-primary); margin-bottom:10px;">⌨️ Keyboard Shortcuts</h3>
+                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:0.8rem; color:var(--text-secondary);">
+                    <div><span style="color:var(--accent);">Alt+M</span> — Open Menu</div>
+                    <div><span style="color:var(--accent);">Esc</span> — Close Menu</div>
+                    <div><span style="color:var(--accent);">Alt+T</span> — Terminal</div>
+                    <div><span style="color:var(--accent);">Alt+N</span> — Notes</div>
+                </div>
+                <button onclick="closeShortcuts()" style="margin-top:10px; background:var(--bg-card); border:1px solid var(--border-glass); padding:4px 14px; border-radius:4px; color:var(--text-secondary); cursor:pointer;">Close</button>
+            </div>
+        </div>
+
         <!-- Notification Container -->
         <div id="notification-container"></div>
+
+        <!-- Context Menu (Desktop) -->
+        <div id="context-menu">
+            <div class="ctx-item" id="ctx-wallpaper"><i class="fa-solid fa-image"></i> Change Wallpaper</div>
+            <div class="ctx-item" id="ctx-refresh"><i class="fa-solid fa-rotate"></i> Refresh</div>
+        </div>
 
     </div>
 

@@ -1,18 +1,22 @@
-// WINDOW MANAGER
+// ===== GLOBALS =====
 var windowCount = 0;
 var windows = [];
 var zIndexCounter = 100;
+var drawColor = '#5f7cff';
+var canvasCtx = null;
 
+// ===== APP CONFIG =====
 var appConfig = {
-    terminal: { title: 'Terminal', icon: 'fa-terminal', w: 420, h: 280 },
-    notes: { title: 'Notes', icon: 'fa-note-sticky', w: 460, h: 600 }, // height increased to 600
-    drawing: { title: 'Drawing', icon: 'fa-palette', w: 500, h: 400 },
-    settings: { title: 'Settings', icon: 'fa-sliders', w: 460, h: 320 },
+    terminal: { title: 'Terminal', icon: 'fa-terminal', w: 440, h: 300 },
+    notes: { title: 'Notes', icon: 'fa-note-sticky', w: 460, h: 500 },
+    drawing: { title: 'Drawing', icon: 'fa-palette', w: 520, h: 420 },
+    settings: { title: 'Settings', icon: 'fa-sliders', w: 460, h: 340 },
     about: { title: 'About JerOS', icon: 'fa-circle-question', w: 420, h: 300 },
-    files: { title: 'File Manager', icon: 'fa-folder', w: 520, h: 380 },
-    calculator: { title: 'Calculator', icon: 'fa-calculator', w: 340, h: 420 }
+    files: { title: 'File Manager', icon: 'fa-folder', w: 540, h: 400 },
+    calculator: { title: 'Calculator', icon: 'fa-calculator', w: 480, h: 440 }
 };
 
+// ===== OPEN APP =====
 function openApp(type) {
     var cfg = appConfig[type];
     if (!cfg) return;
@@ -28,7 +32,6 @@ function openApp(type) {
         return;
     }
 
-    // Perfect centering
     var screenW = window.innerWidth;
     var screenH = window.innerHeight;
     var winW = cfg.w;
@@ -67,7 +70,7 @@ function openApp(type) {
     body.id = 'win-body-' + windowCount;
     win.appendChild(body);
 
-    // Resize handle
+    // resize handle
     var resizeHandle = document.createElement('div');
     resizeHandle.className = 'resize-handle';
     win.appendChild(resizeHandle);
@@ -97,13 +100,13 @@ function openApp(type) {
         document.addEventListener('mouseup', onMouseUp);
     });
 
-    // --- Terminal (Prompt at Top) ---
+    // --- Terminal ---
     if (type === 'terminal') {
         body.innerHTML = `
-            <div style="background:var(--bg-textarea); padding:12px; border-radius:6px; font-family:'Courier New',monospace; color:#7aff8a; flex:1; display:flex; flex-direction:column;">
+            <div style="background:var(--bg-textarea); padding:12px; border-radius:6px; font-family:'Courier New',monospace; flex:1; display:flex; flex-direction:column;">
                 <div style="display:flex; gap:8px; align-items:baseline; margin-bottom:6px;">
-                    <span style="color:#7aff8a;">$</span>
-                    <input type="text" id="term-input" style="background:transparent; border:none; color:#7aff8a; font-family:'Courier New',monospace; font-size:0.8rem; outline:none; flex:1;">
+                    <span class="term-prompt">$</span>
+                    <input type="text" id="term-input" style="background:transparent; border:none; color:var(--text-primary); font-family:'Courier New',monospace; font-size:0.8rem; outline:none; flex:1;">
                 </div>
                 <div id="term-output" style="color:var(--text-secondary); white-space:pre-wrap; flex:1; overflow-y:auto; min-height:60px;"></div>
             </div>
@@ -120,7 +123,8 @@ function openApp(type) {
         });
         setTimeout(function() { input.focus(); }, 50);
     }
-    // --- Notes (Textarea full height, buttons readable, window height 600) ---
+
+    // --- Notes ---
     else if (type === 'notes') {
         var saved = localStorage.getItem('jeros-notes') || '';
         body.className = 'window-body notes-body';
@@ -133,16 +137,17 @@ function openApp(type) {
         `;
         window._notesBody = body;
     }
-    // Drawing
+
+    // --- Drawing ---
     else if (type === 'drawing') {
         body.innerHTML = `
-            <div style="display:flex; flex-direction:column; gap:10px; height:100%; flex:1;">
+            <div style="display:flex; flex-direction:column; gap:10px; height:100%; flex:1; padding:10px;">
                 <div style="display:flex; gap:8px; flex-wrap:wrap;">
-                    <button onclick="setDrawColor('#5f7cff')" style="width:30px; height:30px; border-radius:50%; border:2px solid var(--border-glass); background:#5f7cff; cursor:pointer;"></button>
-                    <button onclick="setDrawColor('#ff6b6b')" style="width:30px; height:30px; border-radius:50%; border:2px solid var(--border-glass); background:#ff6b6b; cursor:pointer;"></button>
-                    <button onclick="setDrawColor('#51cf66')" style="width:30px; height:30px; border-radius:50%; border:2px solid var(--border-glass); background:#51cf66; cursor:pointer;"></button>
-                    <button onclick="setDrawColor('#fcc419')" style="width:30px; height:30px; border-radius:50%; border:2px solid var(--border-glass); background:#fcc419; cursor:pointer;"></button>
-                    <button onclick="setDrawColor('#ffffff')" style="width:30px; height:30px; border-radius:50%; border:2px solid var(--border-glass); background:#ffffff; cursor:pointer;"></button>
+                    <button onclick="setDrawColor('#5f7cff')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#5f7cff; cursor:pointer;"></button>
+                    <button onclick="setDrawColor('#ff6b6b')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#ff6b6b; cursor:pointer;"></button>
+                    <button onclick="setDrawColor('#51cf66')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#51cf66; cursor:pointer;"></button>
+                    <button onclick="setDrawColor('#fcc419')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#fcc419; cursor:pointer;"></button>
+                    <button onclick="setDrawColor('#ffffff')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#ffffff; cursor:pointer;"></button>
                     <button onclick="clearCanvas()" style="background:var(--bg-card); border:1px solid var(--border-glass); padding:4px 16px; border-radius:6px; color:var(--text-secondary); cursor:pointer; font-size:0.7rem;">Clear</button>
                 </div>
                 <canvas id="drawCanvas" style="flex:1; background:#0a0a0e; border-radius:8px; border:1px solid var(--border-glass); cursor:crosshair; width:100%; height:100%;"></canvas>
@@ -150,24 +155,35 @@ function openApp(type) {
         `;
         setTimeout(initCanvas, 50);
     }
-    // Settings
+
+    // --- Settings ---
     else if (type === 'settings') {
         var darkMode = localStorage.getItem('jeros-theme') !== 'light';
+        var fontSize = localStorage.getItem('jeros-font-size') || '1rem';
         body.innerHTML = `
-            <h3 style="font-size:0.9rem; color:var(--text-primary); margin-bottom:14px;">System Settings</h3>
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border-glass);">
+            <h3 style="font-size:0.9rem; color:var(--text-primary); margin-bottom:14px; padding:0 12px;">System Settings</h3>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid var(--border-glass);">
                 <span style="font-size:0.75rem; color:var(--text-secondary);">Dark Mode</span>
                 <div class="toggle ${darkMode ? 'active' : ''}" onclick="toggleTheme(this)" style="width:40px; height:22px; background:${darkMode ? 'var(--accent)' : 'var(--bg-glass)'}; border-radius:40px; cursor:pointer; position:relative; transition:0.2s; border:1px solid var(--border-glass);">
                     <div style="width:16px; height:16px; background:var(--text-primary); border-radius:50%; position:absolute; top:2px; left:${darkMode ? '21px' : '2px'}; transition:0.2s;"></div>
                 </div>
             </div>
-            <div style="display:flex; justify-content:space-between; align-items:center; padding:6px 0; border-bottom:1px solid var(--border-glass);">
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid var(--border-glass);">
+                <span style="font-size:0.75rem; color:var(--text-secondary);">Font Size</span>
+                <select onchange="changeFontSize(this.value)" style="background:var(--bg-input); border:1px solid var(--border-input); border-radius:4px; color:var(--text-primary); padding:2px 6px; font-size:0.8rem;">
+                    <option value="0.8rem" ${fontSize === '0.8rem' ? 'selected' : ''}>Small</option>
+                    <option value="1rem" ${fontSize === '1rem' ? 'selected' : ''}>Normal</option>
+                    <option value="1.2rem" ${fontSize === '1.2rem' ? 'selected' : ''}>Large</option>
+                </select>
+            </div>
+            <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid var(--border-glass);">
                 <span style="font-size:0.75rem; color:var(--text-secondary);">Version</span>
                 <span style="font-size:0.75rem; color:var(--accent);">1.0.0</span>
             </div>
         `;
     }
-    // About
+
+    // --- About ---
     else if (type === 'about') {
         body.innerHTML = `
             <div style="text-align:center; padding:12px 0; flex:1; display:flex; flex-direction:column; justify-content:center;">
@@ -183,50 +199,66 @@ function openApp(type) {
             </div>
         `;
     }
-    // File Manager
+
+    // --- File Manager ---
     else if (type === 'files') {
         body.innerHTML = `
-            <div style="display:flex; gap:16px; height:100%; flex:1;">
-                <div style="min-width:120px; border-right:1px solid var(--border-glass); padding-right:12px;">
+            <div style="display:flex; gap:16px; height:100%; flex:1; padding:10px;">
+                <div style="min-width:130px; border-right:1px solid var(--border-glass); padding-right:12px;">
                     <div style="font-size:0.6rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Folders</div>
-                    <div style="font-size:0.75rem; color:var(--text-secondary); padding:4px 0; cursor:pointer;" onclick="showNotification('Folder', 'Documents opened')">📁 Documents</div>
-                    <div style="font-size:0.75rem; color:var(--text-secondary); padding:4px 0; cursor:pointer;" onclick="showNotification('Folder', 'Downloads opened')">📁 Downloads</div>
-                    <div style="font-size:0.75rem; color:var(--text-secondary); padding:4px 0; cursor:pointer;" onclick="showNotification('Folder', 'Projects opened')">📁 Projects</div>
+                    <div style="font-size:0.75rem; color:var(--text-secondary); padding:6px 0; cursor:pointer;" data-folder="Documents">📁 Documents</div>
+                    <div style="font-size:0.75rem; color:var(--text-secondary); padding:6px 0; cursor:pointer;" data-folder="Downloads">📁 Downloads</div>
+                    <div style="font-size:0.75rem; color:var(--text-secondary); padding:6px 0; cursor:pointer;" data-folder="Projects">📁 Projects</div>
                 </div>
                 <div style="flex:1;">
                     <div style="font-size:0.6rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Files</div>
-                    <div class="file-grid">
-                        <div class="file-item" onclick="showNotification('File', 'README.md opened')"><span class="file-icon">📄</span><span class="file-name">README.md</span></div>
-                        <div class="file-item" onclick="showNotification('File', 'index.html opened')"><span class="file-icon">📄</span><span class="file-name">index.html</span></div>
-                        <div class="file-item" onclick="showNotification('File', 'style.css opened')"><span class="file-icon">📄</span><span class="file-name">style.css</span></div>
-                        <div class="file-item" onclick="showNotification('File', 'script.js opened')"><span class="file-icon">📄</span><span class="file-name">script.js</span></div>
+                    <div class="file-grid" id="file-grid">
+                        <div style="color:var(--text-muted); font-size:0.7rem; padding:20px; text-align:center; grid-column:1/-1;">Select a folder to view files</div>
                     </div>
                 </div>
             </div>
         `;
+        var folderItems = body.querySelectorAll('[data-folder]');
+        for (var i = 0; i < folderItems.length; i++) {
+            folderItems[i].addEventListener('click', function() {
+                var folder = this.dataset.folder;
+                openFolderContent(folder, this.closest('.window'));
+            });
+        }
     }
-    // Calculator
+
+    // --- Calculator (with History) ---
     else if (type === 'calculator') {
+        var historyHtml = localStorage.getItem('jeros-calc-history') || '';
         body.innerHTML = `
-            <div style="flex:1; display:flex; flex-direction:column; justify-content:center; align-items:center; height:100%; padding:8px;">
-                <div class="calc-grid">
-                    <div class="display" id="calc-display">0</div>
-                    <button onclick="calcInput('7')">7</button>
-                    <button onclick="calcInput('8')">8</button>
-                    <button onclick="calcInput('9')">9</button>
-                    <button class="op" onclick="calcInput('/')">÷</button>
-                    <button onclick="calcInput('4')">4</button>
-                    <button onclick="calcInput('5')">5</button>
-                    <button onclick="calcInput('6')">6</button>
-                    <button class="op" onclick="calcInput('*')">×</button>
-                    <button onclick="calcInput('1')">1</button>
-                    <button onclick="calcInput('2')">2</button>
-                    <button onclick="calcInput('3')">3</button>
-                    <button class="op" onclick="calcInput('-')">−</button>
-                    <button onclick="calcInput('0')">0</button>
-                    <button onclick="calcInput('.')">.</button>
-                    <button onclick="calcInput('C')">C</button>
-                    <button class="eq" onclick="calcInput('=')">=</button>
+            <div class="calc-wrapper">
+                <div class="calc-main">
+                    <div class="calc-grid">
+                        <div class="display" id="calc-display">0</div>
+                        <button onclick="calcInput('7')">7</button>
+                        <button onclick="calcInput('8')">8</button>
+                        <button onclick="calcInput('9')">9</button>
+                        <button class="op" onclick="calcInput('/')">÷</button>
+                        <button onclick="calcInput('4')">4</button>
+                        <button onclick="calcInput('5')">5</button>
+                        <button onclick="calcInput('6')">6</button>
+                        <button class="op" onclick="calcInput('*')">×</button>
+                        <button onclick="calcInput('1')">1</button>
+                        <button onclick="calcInput('2')">2</button>
+                        <button onclick="calcInput('3')">3</button>
+                        <button class="op" onclick="calcInput('-')">−</button>
+                        <button onclick="calcInput('0')">0</button>
+                        <button onclick="calcInput('.')">.</button>
+                        <button onclick="calcInput('C')">C</button>
+                        <button class="eq" onclick="calcInput('=')">=</button>
+                    </div>
+                </div>
+                <div class="calc-history-side" id="calc-history-side">
+                    <div class="hist-title">
+                        📜 History
+                        <button class="clear-history" onclick="clearCalcHistory()">Clear all</button>
+                    </div>
+                    ${historyHtml}
                 </div>
             </div>
         `;
@@ -281,7 +313,7 @@ function openApp(type) {
     });
 }
 
-// ===== TERMINAL COMMANDS =====
+// ===== TERMINAL =====
 function executeTerminal(cmd, output) {
     var line = document.createElement('div');
     line.style.color = 'var(--text-secondary)';
@@ -332,9 +364,6 @@ function clearNotes() {
 }
 
 // ===== DRAWING =====
-var drawColor = '#5f7cff';
-var canvasCtx = null;
-
 function initCanvas() {
     var canvas = document.getElementById('drawCanvas');
     if (!canvas) return;
@@ -393,7 +422,6 @@ function initCanvas() {
         });
     });
 }
-
 function setDrawColor(color) {
     drawColor = color;
     if (canvasCtx) canvasCtx.strokeStyle = color;
@@ -406,7 +434,7 @@ function clearCanvas() {
     showNotification('Drawing', 'Canvas cleared!');
 }
 
-// ===== SETTINGS — THEME TOGGLE =====
+// ===== SETTINGS =====
 function toggleTheme(el) {
     var isActive = el.classList.toggle('active');
     var body = document.body;
@@ -421,6 +449,222 @@ function toggleTheme(el) {
     if (knob) knob.style.left = isActive ? '21px' : '2px';
     el.style.background = isActive ? 'var(--accent)' : 'var(--bg-glass)';
     showNotification('Settings', 'Theme changed!');
+}
+function changeFontSize(size) {
+    localStorage.setItem('jeros-font-size', size);
+    document.documentElement.style.fontSize = size;
+    showNotification('Settings', 'Font size changed!');
+}
+
+// ===== FILE MANAGER =====
+function openFolderContent(folder, win) {
+    var fileGrid = win.querySelector('#file-grid');
+    if (!fileGrid) return;
+    var files = {
+        'Documents': ['📄 Report.docx', '📊 Sheet.xlsx', '📝 Notes.txt', '📑 Invoice.pdf'],
+        'Downloads': ['📦 setup.exe', '🎬 video.mp4', '🖼 image.png', '🎵 song.mp3'],
+        'Projects': ['📁 ProjectA', '📁 ProjectB', '📄 README.md', '📊 timeline.gantt']
+    };
+    var items = files[folder] || ['📁 Empty folder'];
+    fileGrid.innerHTML = '';
+    for (var i = 0; i < items.length; i++) {
+        var div = document.createElement('div');
+        div.className = 'file-item';
+        div.innerHTML = `
+            <span class="file-icon">${items[i].split(' ')[0]}</span>
+            <span class="file-name">${items[i].substring(items[i].indexOf(' ') + 1)}</span>
+        `;
+        div.onclick = function() {
+            showNotification('File', this.querySelector('.file-name').textContent + ' opened');
+        };
+        fileGrid.appendChild(div);
+    }
+    showNotification('Folder', folder + ' opened');
+}
+
+// ===== WALLPAPER =====
+function uploadWallpaper(event) {
+    var file = event.target.files[0];
+    if (!file) return;
+    var reader = new FileReader();
+    reader.onload = function(e) {
+        var desktop = document.getElementById('desktop');
+        desktop.style.backgroundImage = 'url(' + e.target.result + ')';
+        desktop.style.backgroundSize = 'cover';
+        desktop.style.backgroundPosition = 'center';
+        localStorage.setItem('jeros-wallpaper-custom', e.target.result);
+        showNotification('Wallpaper', 'Custom wallpaper uploaded!');
+    };
+    reader.readAsDataURL(file);
+}
+function changeWallpaper(classname) {
+    var desktop = document.getElementById('desktop');
+    desktop.className = classname;
+    desktop.style.backgroundImage = '';
+    localStorage.removeItem('jeros-wallpaper-custom');
+    localStorage.setItem('jeros-wallpaper', classname);
+    showNotification('Wallpaper', 'Changed!');
+}
+
+// ===== CALCULATOR =====
+var calcStr = '';
+
+function calcInput(val) {
+    var display = document.getElementById('calc-display');
+    if (!display) return;
+
+    if (val === 'C') {
+        calcStr = '';
+        display.textContent = '0';
+        return;
+    }
+
+    if (val === '=') {
+        // Store the expression before evaluating
+        var expression = calcStr;
+        try {
+            // Evaluate safely
+            var result = Function('"use strict"; return (' + calcStr + ')')();
+            calcStr = String(result);
+            display.textContent = calcStr;
+
+            // Add to history with expression and result
+            var history = document.getElementById('calc-history-side');
+            if (history) {
+                var entry = document.createElement('div');
+                entry.className = 'hist-entry';
+                // Format nicely for display: replace * with ×, / with ÷, - with −
+                var displayExpr = expression.replace(/\*/g, '×').replace(/\//g, '÷').replace(/\-/g, '−');
+                entry.textContent = displayExpr + ' = ' + calcStr;
+                history.appendChild(entry);
+
+                // Save only entries (without heading) to localStorage
+                var entries = history.querySelectorAll('.hist-entry');
+                var historyData = '';
+                for (var i = 0; i < entries.length; i++) {
+                    historyData += entries[i].outerHTML;
+                }
+                localStorage.setItem('jeros-calc-history', historyData);
+            }
+        } catch (e) {
+            calcStr = 'Error';
+            display.textContent = calcStr;
+        }
+        return;
+    }
+
+    // Normal input
+    if (calcStr === '0' && val !== '.') {
+        calcStr = val;
+    } else {
+        calcStr += val;
+    }
+    display.textContent = calcStr;
+}
+
+function clearCalcHistory() {
+    if (!confirm('Clear calculation history?')) return;
+    var history = document.getElementById('calc-history-side');
+    if (history) {
+        // Remove only entries, keep the title heading
+        var entries = history.querySelectorAll('.hist-entry');
+        for (var i = 0; i < entries.length; i++) {
+            entries[i].remove();
+        }
+        localStorage.removeItem('jeros-calc-history');
+        showNotification('Calculator', 'History cleared!');
+    }
+}
+
+// ===== SYSTEM TRAY — Actual Device Info =====
+document.getElementById('tray-network').addEventListener('click', function() {
+    if (navigator.connection) {
+        var conn = navigator.connection;
+        var type = conn.effectiveType || 'unknown';
+        var speed = conn.downlink ? conn.downlink + ' Mbps' : 'N/A';
+        showNotification('Network', '📶 ' + type + ' · ' + speed);
+    } else {
+        showNotification('Network', '📶 Wi-Fi: Connected');
+    }
+});
+// Volume state (stored in localStorage for persistence)
+var systemVolume = parseInt(localStorage.getItem('jeros-system-volume')) || 75;
+
+document.getElementById('tray-volume').addEventListener('click', function() {
+    // Simulate system volume fluctuation (-5% to +5%)
+    var change = Math.floor(Math.random() * 11) - 5;
+    systemVolume = Math.min(100, Math.max(0, systemVolume + change));
+    localStorage.setItem('jeros-system-volume', systemVolume);
+    
+    // Create a volume bar (▰ filled, ▱ empty)
+    var bar = '';
+    var filled = Math.round(systemVolume / 10);
+    for (var i = 0; i < 10; i++) {
+        bar += (i < filled) ? '▰' : '▱';
+    }
+    
+    // Dynamic icon based on level
+    var icon = systemVolume > 60 ? '🔊' : (systemVolume > 30 ? '🔉' : '🔈');
+    var muted = systemVolume === 0 ? ' 🔇 Muted' : '';
+    
+    showNotification('Volume', icon + ' ' + systemVolume + '%  ' + bar + muted);
+});
+
+
+document.getElementById('tray-battery').addEventListener('click', function() {
+    if (navigator.getBattery) {
+        navigator.getBattery().then(function(battery) {
+            var level = Math.round(battery.level * 100);
+            var charging = battery.charging ? 'Charging' : 'Discharging';
+            showNotification('Battery', '🔋 ' + level + '% · ' + charging);
+        }).catch(function() {
+            showNotification('Battery', '🔋 Battery info not available');
+        });
+    } else {
+        showNotification('Battery', '🔋 Battery: 87% (API not supported)');
+    }
+});
+
+// ===== TASKBAR RIGHT-CLICK =====
+document.getElementById('taskbar').addEventListener('contextmenu', function(e) {
+    e.preventDefault();
+    var menu = document.getElementById('taskbar-context-menu');
+    if (!menu) return;
+    menu.style.left = e.clientX - 100 + 'px';
+    menu.style.bottom = '70px';
+    menu.classList.toggle('open');
+});
+document.addEventListener('click', function() {
+    var menu = document.getElementById('taskbar-context-menu');
+    if (menu) menu.classList.remove('open');
+});
+
+document.getElementById('ctx-taskmgr').addEventListener('click', function() {
+    document.getElementById('taskbar-context-menu').classList.remove('open');
+    showNotification('Task Manager', 'Processes: 24 running, 0 suspended');
+});
+document.getElementById('ctx-settings').addEventListener('click', function() {
+    document.getElementById('taskbar-context-menu').classList.remove('open');
+    openApp('settings');
+});
+document.getElementById('ctx-startmenu').addEventListener('click', function() {
+    document.getElementById('taskbar-context-menu').classList.remove('open');
+    toggleMenu();
+});
+
+// ===== NOTIFICATIONS =====
+function showNotification(title, body, duration) {
+    duration = duration || 3000;
+    var container = document.getElementById('notification-container');
+    if (!container) return;
+    var notif = document.createElement('div');
+    notif.className = 'notification';
+    notif.innerHTML = `<button class="notif-close" onclick="this.parentElement.remove()">✕</button><div class="notif-title">${title}</div><div class="notif-body">${body}</div>`;
+    container.appendChild(notif);
+    setTimeout(function() {
+        notif.classList.add('notification-out');
+        setTimeout(function() { notif.remove(); }, 300);
+    }, duration);
 }
 
 // ===== WINDOW CONTROLS =====
@@ -501,24 +745,26 @@ function closeWindowFromTaskbar(btn) {
     updateTaskbar();
 }
 
-// ===== BOOT =====
-window.addEventListener('load', function() {
-    var theme = localStorage.getItem('jeros-theme') || 'dark';
-    if (theme === 'light') {
-        document.body.classList.add('light-mode');
-        var toggle = document.querySelector('.toggle');
-        if (toggle) { toggle.classList.remove('active'); var knob = toggle.querySelector('div'); if (knob) knob.style.left = '2px'; toggle.style.background = 'var(--bg-glass)'; }
-    }
-    setTimeout(function() { document.getElementById('boot').classList.add('hidden'); }, 1800);
+// ===== CONTEXT MENU (Desktop) =====
+document.addEventListener('contextmenu', function(e) {
+    if (e.target.closest('#taskbar') || e.target.closest('#menu')) return;
+    e.preventDefault();
+    var menu = document.getElementById('context-menu');
+    if (!menu) return;
+    menu.style.left = Math.min(e.clientX, window.innerWidth - 200) + 'px';
+    menu.style.top = Math.min(e.clientY, window.innerHeight - 150) + 'px';
+    menu.classList.add('open');
 });
+document.addEventListener('click', function() { var menu = document.getElementById('context-menu'); if (menu) menu.classList.remove('open'); });
 
-// ===== CLOCK =====
-function updateClock() {
-    var now = new Date();
-    document.getElementById('clockDisplay').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
-    document.getElementById('dateDisplay').textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
-}
-setInterval(updateClock, 1000); updateClock();
+document.getElementById('ctx-wallpaper').addEventListener('click', function() {
+    document.getElementById('context-menu').classList.remove('open');
+    document.getElementById('wallpaperUpload').click();
+});
+document.getElementById('ctx-refresh').addEventListener('click', function() {
+    document.getElementById('context-menu').classList.remove('open');
+    showNotification('Refresh', 'Desktop refreshed');
+});
 
 // ===== MENU =====
 function closeMenu() { document.getElementById('menu').classList.remove('open'); }
@@ -532,25 +778,31 @@ function filterApps(val) {
     }
 }
 
-// ===== WALLPAPER =====
-function changeWallpaper(classname) {
-    var desktop = document.getElementById('desktop');
-    desktop.className = classname;
-    localStorage.setItem('jeros-wallpaper', classname);
-    showNotification('Wallpaper', 'Changed!');
-}
-window.addEventListener('load', function() {
-    var savedWallpaper = localStorage.getItem('jeros-wallpaper');
-    if (savedWallpaper) document.getElementById('desktop').className = savedWallpaper;
-});
-
-// ===== DOUBLE CLICK (Disabled) =====
-
 // ===== KEYBOARD SHORTCUTS =====
+function showShortcuts() {
+    document.getElementById('shortcuts-popup').classList.add('open');
+}
+function closeShortcuts() {
+    document.getElementById('shortcuts-popup').classList.remove('open');
+}
 document.addEventListener('keydown', function(e) {
+    if (e.altKey && e.key === 't') { e.preventDefault(); openApp('terminal'); }
+    if (e.altKey && e.key === 'n') { e.preventDefault(); openApp('notes'); }
     if (e.altKey && e.key === 'm') { e.preventDefault(); toggleMenu(); }
-    if (e.key == 'Escape') { if (document.getElementById('menu').classList.contains('open')) closeMenu(); }
+    if (e.altKey && e.key === 's') { e.preventDefault(); showShortcuts(); }
+    if (e.key === 'Escape') {
+        if (document.getElementById('menu').classList.contains('open')) closeMenu();
+        if (document.getElementById('shortcuts-popup').classList.contains('open')) closeShortcuts();
+    }
 });
+
+// ===== CLOCK =====
+function updateClock() {
+    var now = new Date();
+    document.getElementById('clockDisplay').textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+    document.getElementById('dateDisplay').textContent = now.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
+}
+setInterval(updateClock, 1000); updateClock();
 
 // ===== APP CLICK HANDLER =====
 var appItems = document.querySelectorAll('.icon-item, .app');
@@ -562,43 +814,28 @@ for (var i = 0; i < appItems.length; i++) {
     });
 }
 
-// ===== CALCULATOR =====
-var calcStr = '';
-function calcInput(val) {
-    var display = document.getElementById('calc-display');
-    if (!display) return;
-    if (val === 'C') { calcStr = ''; display.textContent = '0'; return; }
-    if (val === '=') {
-        try { calcStr = Function('"use strict"; return (' + calcStr + ')')(); } catch (e) { calcStr = 'Error'; }
-        display.textContent = calcStr;
-        return;
+// ===== BOOT =====
+window.addEventListener('load', function() {
+    var theme = localStorage.getItem('jeros-theme') || 'dark';
+    if (theme === 'light') {
+        document.body.classList.add('light-mode');
+        var toggle = document.querySelector('.toggle');
+        if (toggle) { toggle.classList.remove('active'); var knob = toggle.querySelector('div'); if (knob) knob.style.left = '2px'; toggle.style.background = 'var(--bg-glass)'; }
     }
-    if (calcStr === '0' && val !== '.') calcStr = val;
-    else calcStr += val;
-    display.textContent = calcStr;
-}
-
-// ===== NOTIFICATIONS =====
-function showNotification(title, body, duration) {
-    duration = duration || 3000;
-    var container = document.getElementById('notification-container');
-    if (!container) return;
-    var notif = document.createElement('div');
-    notif.className = 'notification';
-    notif.innerHTML = `<button class="notif-close" onclick="this.parentElement.remove()">✕</button><div class="notif-title">${title}</div><div class="notif-body">${body}</div>`;
-    container.appendChild(notif);
-    setTimeout(function() { notif.classList.add('notification-out'); setTimeout(function() { notif.remove(); }, 300); }, duration);
-}
-
-// ===== CONTEXT MENU =====
-document.addEventListener('contextmenu', function(e) {
-    e.preventDefault();
-    var menu = document.getElementById('context-menu');
-    if (!menu) return;
-    menu.style.left = Math.min(e.clientX, window.innerWidth - 200) + 'px';
-    menu.style.top = Math.min(e.clientY, window.innerHeight - 150) + 'px';
-    menu.classList.add('open');
+    var fontSize = localStorage.getItem('jeros-font-size') || '1rem';
+    document.documentElement.style.fontSize = fontSize;
+    var customWallpaper = localStorage.getItem('jeros-wallpaper-custom');
+    if (customWallpaper) {
+        var desktop = document.getElementById('desktop');
+        desktop.style.backgroundImage = 'url(' + customWallpaper + ')';
+        desktop.style.backgroundSize = 'cover';
+        desktop.style.backgroundPosition = 'center';
+    }
+    var savedWallpaper = localStorage.getItem('jeros-wallpaper');
+    if (savedWallpaper && !localStorage.getItem('jeros-wallpaper-custom')) {
+        document.getElementById('desktop').className = savedWallpaper;
+    }
+    setTimeout(function() { document.getElementById('boot').classList.add('hidden'); }, 1800);
 });
-document.addEventListener('click', function() { var menu = document.getElementById('context-menu'); if (menu) menu.classList.remove('open'); });
 
-console.log('JerOS Phase 3 final — Notes textarea now much larger.');
+console.log('JerOS Phase 6 loaded — History fixed with calculations.');
