@@ -19,12 +19,12 @@
 <div id="desktop" class="wallpaper-1">
 
   <div id="icons">
-    <div class="icon-item" data-app="terminal"><i class="fa-solid fa-terminal ico"></i><span class="lbl">Terminal</span></div>
-    <div class="icon-item" data-app="notes"><i class="fa-regular fa-note-sticky ico"></i><span class="lbl">Notes</span></div>
-    <div class="icon-item" data-app="drawing"><i class="fa-solid fa-palette ico"></i><span class="lbl">Drawing</span></div>
-    <div class="icon-item" data-app="settings"><i class="fa-solid fa-sliders ico"></i><span class="lbl">Settings</span></div>
-    <div class="icon-item" data-app="files"><i class="fa-solid fa-folder ico"></i><span class="lbl">Files</span></div>
-    <div class="icon-item" data-app="calculator"><i class="fa-solid fa-calculator ico"></i><span class="lbl">Calculator</span></div>
+    <div class="icon-item" data-app='terminal'><i class="fa-solid fa-terminal ico"></i><span class="lbl">Terminal</span></div>
+    <div class="icon-item" data-app='notes'><i class="fa-regular fa-note-sticky ico"></i><span class="lbl">Notes</span></div>
+    <div class="icon-item" data-app='drawing'><i class="fa-solid fa-palette ico"></i><span class="lbl">Drawing</span></div>
+    <div class="icon-item" data-app='settings'><i class="fa-solid fa-sliders ico"></i><span class="lbl">Settings</span></div>
+    <div class="icon-item" data-app='files'><i class="fa-solid fa-folder ico"></i><span class="lbl">Files</span></div>
+    <div class="icon-item" data-app='calculator'><i class="fa-solid fa-calculator ico"></i><span class="lbl">Calculator</span></div>
   </div>
 
   <div id="menu">
@@ -39,13 +39,13 @@
     </div>
     <input type="text" class="search" placeholder="Search apps..." id="searchInput" oninput="filterApps(this.value)">
     <div class="grid" id="appGrid">
-      <div class="app" data-app="terminal"><i class="fa-solid fa-terminal ico"></i><span>Terminal</span></div>
-      <div class="app" data-app="notes"><i class="fa-regular fa-note-sticky ico"></i><span>Notes</span></div>
-      <div class="app" data-app="drawing"><i class="fa-solid fa-palette ico"></i><span>Drawing</span></div>
-      <div class="app" data-app="settings"><i class="fa-solid fa-sliders ico"></i><span>Settings</span></div>
-      <div class="app" data-app="about"><i class="fa-regular fa-circle-question ico"></i><span>About</span></div>
-      <div class="app" data-app="files"><i class="fa-solid fa-folder ico"></i><span>Files</span></div>
-      <div class="app" data-app="calculator"><i class="fa-solid fa-calculator ico"></i><span>Calculator</span></div>
+      <div class="app" data-app='terminal'><i class="fa-solid fa-terminal ico"></i><span>Terminal</span></div>
+      <div class="app" data-app='notes'><i class="fa-regular fa-note-sticky ico"></i><span>Notes</span></div>
+      <div class="app" data-app='drawing'><i class="fa-solid fa-palette ico"></i><span>Drawing</span></div>
+      <div class="app" data-app='settings'><i class="fa-solid fa-sliders ico"></i><span>Settings</span></div>
+      <div class="app" data-app='about'><i class="fa-regular fa-circle-question ico"></i><span>About</span></div>
+      <div class="app" data-app='files'><i class="fa-solid fa-folder ico"></i><span>Files</span></div>
+      <div class="app" data-app='calculator'><i class="fa-solid fa-calculator ico"></i><span>Calculator</span></div>
     </div>
     <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-glass); display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
       <span style="font-size:0.7rem; color:var(--text-secondary); font-weight:500;">Wallpaper</span>
@@ -75,7 +75,6 @@
       <span class="tray-icon" id="tray-volume" title="Volume"><i class="fa-solid fa-volume-high"></i></span>
       <span class="tray-icon" id="tray-battery" title="Battery"><i class="fa-solid fa-battery-three-quarters"></i></span>
     </div>
-    <!-- removed #taskbar-center -->
     <div id="tray">
       <div class="dt">
         <div class="tm" id="clockDisplay">--:--</div>
@@ -100,7 +99,7 @@
         <div><span style="color:var(--accent);">Alt+T</span> Terminal</div>
         <div><span style="color:var(--accent);">Alt+N</span> Notes</div>
       </div>
-      <button onclick="closeShortcuts()" style="margin-top:10px; background:var(--bg-card); border:1px solid var(--border-glass); padding:4px 14px; border-radius:4px; color:var(--text-secondary); cursor:pointer;">Close</button>
+      <button onclick='closeShortcuts()' style="margin-top:10px; background:var(--bg-card); border:1px solid var(--border-glass); padding:4px 14px; border-radius:4px; color:var(--text-secondary); cursor:pointer;">Close</button>
     </div>
   </div>
 
