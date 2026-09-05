@@ -1,117 +1,118 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>JerOS</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>JerOS</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
-    <div id="boot">
-        <div class="boot-title">Jer<span>OS</span></div>
-        <div class="loader"><div class="bar"></div></div>
-        <div class="status">Initializing...</div>
+<div id="boot">
+  <div class="boot-title">Jer<span>OS</span></div>
+  <div class="loader"><div class="bar"></div></div>
+  <div class="status">Initializing...</div>
+</div>
+
+<div id="desktop" class="wallpaper-1">
+
+  <div id="icons">
+    <div class="icon-item" data-app="terminal"><i class="fa-solid fa-terminal ico"></i><span class="lbl">Terminal</span></div>
+    <div class="icon-item" data-app="notes"><i class="fa-regular fa-note-sticky ico"></i><span class="lbl">Notes</span></div>
+    <div class="icon-item" data-app="drawing"><i class="fa-solid fa-palette ico"></i><span class="lbl">Drawing</span></div>
+    <div class="icon-item" data-app="settings"><i class="fa-solid fa-sliders ico"></i><span class="lbl">Settings</span></div>
+    <div class="icon-item" data-app="files"><i class="fa-solid fa-folder ico"></i><span class="lbl">Files</span></div>
+    <div class="icon-item" data-app="calculator"><i class="fa-solid fa-calculator ico"></i><span class="lbl">Calculator</span></div>
+  </div>
+
+  <div id="menu">
+    <div class="mhead">
+      <svg class="logo-medium" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class="bg-shape" x="2" y="2" width="32" height="32" rx="8"/>
+        <path class="ring" d="M10 28 C18 32, 28 26, 26 18 C24 10, 14 8, 10 14 C6 20, 12 26, 18 24 C24 22, 26 16, 22 14" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
+        <text class="j-letter" x="10" y="24" fill="var(--text-primary)" font-family="Inter" font-weight="700" font-size="18">J</text>
+        <circle class="dot" cx="27" cy="14" r="2" fill="var(--text-primary)" fill-opacity="0.7"/>
+      </svg>
+      <span>Jer<span style="color:var(--accent);">OS</span> <span style="font-weight:400; font-size:0.65rem; color:var(--text-muted);">v1.0</span></span>
     </div>
-
-    <div id="desktop" class="wallpaper-1">
-
-        <div id="icons">
-            <div class="icon-item" data-app="terminal"><i class="fa-solid fa-terminal ico"></i><span class="lbl">Terminal</span></div>
-            <div class="icon-item" data-app="notes"><i class="fa-regular fa-note-sticky ico"></i><span class="lbl">Notes</span></div>
-            <div class="icon-item" data-app="drawing"><i class="fa-solid fa-palette ico"></i><span class="lbl">Drawing</span></div>
-            <div class="icon-item" data-app="settings"><i class="fa-solid fa-sliders ico"></i><span class="lbl">Settings</span></div>
-            <div class="icon-item" data-app="files"><i class="fa-solid fa-folder ico"></i><span class="lbl">Files</span></div>
-            <div class="icon-item" data-app="calculator"><i class="fa-solid fa-calculator ico"></i><span class="lbl">Calculator</span></div>
-        </div>
-
-        <div id="menu">
-            <div class="mhead">
-                <svg class="logo-medium" viewBox="0 0 36 36" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect class="bg-shape" x="2" y="2" width="32" height="32" rx="8"/>
-                    <path class="ring" d="M10 28 C18 32, 28 26, 26 18 C24 10, 14 8, 10 14 C6 20, 12 26, 18 24 C24 22, 26 16, 22 14" stroke="var(--accent)" stroke-width="2.5" stroke-linecap="round"/>
-                    <text class="j-letter" x="10" y="24" fill="var(--text-primary)" font-family="Inter" font-weight="700" font-size="18">J</text>
-                    <circle class="dot" cx="27" cy="14" r="2" fill="var(--text-primary)" fill-opacity="0.7"/>
-                </svg>
-                <span>Jer<span style="color:var(--accent);">OS</span> <span style="font-weight:400; font-size:0.65rem; color:var(--text-muted);">v1.0</span></span>
-            </div>
-            <input type="text" class="search" placeholder="Search apps..." id="searchInput" oninput="filterApps(this.value)">
-            <div class="grid" id="appGrid">
-                <div class="app" data-app="terminal"><i class="fa-solid fa-terminal ico"></i><span>Terminal</span></div>
-                <div class="app" data-app="notes"><i class="fa-regular fa-note-sticky ico"></i><span>Notes</span></div>
-                <div class="app" data-app="drawing"><i class="fa-solid fa-palette ico"></i><span>Drawing</span></div>
-                <div class="app" data-app="settings"><i class="fa-solid fa-sliders ico"></i><span>Settings</span></div>
-                <div class="app" data-app="about"><i class="fa-regular fa-circle-question ico"></i><span>About</span></div>
-                <div class="app" data-app="files"><i class="fa-solid fa-folder ico"></i><span>Files</span></div>
-                <div class="app" data-app="calculator"><i class="fa-solid fa-calculator ico"></i><span>Calculator</span></div>
-            </div>
-            <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-glass); display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
-                <span style="font-size:0.7rem; color:var(--text-secondary); font-weight:500;">Wallpaper</span>
-                <div class="wallpaper-option" style="background:linear-gradient(135deg, #0f0c29, #302b63, #24243e);" onclick="changeWallpaper('wallpaper-1')"></div>
-                <div class="wallpaper-option" style="background:linear-gradient(135deg, #1a1a2e, #16213e, #0f3460);" onclick="changeWallpaper('wallpaper-2')"></div>
-                <div class="wallpaper-option" style="background:linear-gradient(135deg, #2d1b69, #11998e, #38ef7d);" onclick="changeWallpaper('wallpaper-3')"></div>
-                <label class="upload-btn" style="background:var(--bg-card); border:1px solid var(--border-glass); padding:6px 16px; border-radius:8px; color:var(--text-secondary); font-size:0.7rem; cursor:pointer; transition:0.2s; display:flex; align-items:center; gap:6px;">
-                    <i class="fa-solid fa-upload"></i> Upload
-                    <input type="file" accept="image/*" style="display:none;" id="wallpaperUpload" onchange="uploadWallpaper(event)">
-                </label>
-            </div>
-        </div>
-
-        <div id="taskbar">
-            <div class="logo-area" onclick="toggleMenu()">
-                <svg class="logo-small" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
-                    <rect class="bg-shape" x="2" y="2" width="24" height="24" rx="6"/>
-                    <path class="ring" d="M8 22 C14 25, 22 20, 20 14 C18 8, 10 6, 8 11 C6 16, 10 20, 14 19 C18 18, 20 13, 17 11" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
-                    <text class="j-letter" x="8" y="19" fill="var(--text-primary)" font-family="Inter" font-weight="700" font-size="14">J</text>
-                    <circle class="dot" cx="21" cy="11" r="1.5" fill="var(--text-primary)" fill-opacity="0.7"/>
-                </svg>
-                <span class="logo-text">Jer<span>OS</span></span>
-            </div>
-            <div id="taskbar-apps"></div>
-            <div id="system-tray">
-                <span class="tray-icon" id="tray-network" title="Network"><i class="fa-solid fa-wifi"></i></span>
-                <span class="tray-icon" id="tray-volume" title="Volume"><i class="fa-solid fa-volume-high"></i></span>
-                <span class="tray-icon" id="tray-battery" title="Battery"><i class="fa-solid fa-battery-three-quarters"></i></span>
-            </div>
-            <div id="tray">
-                <div class="dt">
-                    <div class="tm" id="clockDisplay">--:--</div>
-                    <div class="dt2" id="dateDisplay">--- --</div>
-                </div>
-            </div>
-        </div>
-
-        <div id="taskbar-context-menu">
-            <div class="ctx-item" id="ctx-taskmgr"><i class="fa-solid fa-list-check"></i> Task Manager</div>
-            <div class="ctx-item" id="ctx-settings"><i class="fa-solid fa-sliders"></i> Settings</div>
-            <div class="ctx-divider"></div>
-            <div class="ctx-item" id="ctx-startmenu"><i class="fa-solid fa-grid-2"></i> Start Menu</div>
-        </div>
-
-        <div id="shortcuts-popup">
-            <div class="shortcuts-content">
-                <h3 style="color:var(--text-primary); margin-bottom:10px;">Keyboard Shortcuts</h3>
-                <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:0.8rem; color:var(--text-secondary);">
-                    <div><span style="color:var(--accent);">Alt+M</span> Open Menu</div>
-                    <div><span style="color:var(--accent);">Esc</span> Close Menu</div>
-                    <div><span style="color:var(--accent);">Alt+T</span> Terminal</div>
-                    <div><span style="color:var(--accent);">Alt+N</span> Notes</div>
-                </div>
-                <button onclick="closeShortcuts()" style="margin-top:10px; background:var(--bg-card); border:1px solid var(--border-glass); padding:4px 14px; border-radius:4px; color:var(--text-secondary); cursor:pointer;">Close</button>
-            </div>
-        </div>
-
-        <div id="notification-container"></div>
-
-        <div id="context-menu">
-            <div class="ctx-item" id="ctx-wallpaper"><i class="fa-solid fa-image"></i> Change Wallpaper</div>
-            <div class="ctx-item" id="ctx-refresh"><i class="fa-solid fa-rotate"></i> Refresh</div>
-        </div>
-
+    <input type="text" class="search" placeholder="Search apps..." id="searchInput" oninput="filterApps(this.value)">
+    <div class="grid" id="appGrid">
+      <div class="app" data-app="terminal"><i class="fa-solid fa-terminal ico"></i><span>Terminal</span></div>
+      <div class="app" data-app="notes"><i class="fa-regular fa-note-sticky ico"></i><span>Notes</span></div>
+      <div class="app" data-app="drawing"><i class="fa-solid fa-palette ico"></i><span>Drawing</span></div>
+      <div class="app" data-app="settings"><i class="fa-solid fa-sliders ico"></i><span>Settings</span></div>
+      <div class="app" data-app="about"><i class="fa-regular fa-circle-question ico"></i><span>About</span></div>
+      <div class="app" data-app="files"><i class="fa-solid fa-folder ico"></i><span>Files</span></div>
+      <div class="app" data-app="calculator"><i class="fa-solid fa-calculator ico"></i><span>Calculator</span></div>
     </div>
+    <div style="margin-top:14px; padding-top:14px; border-top:1px solid var(--border-glass); display:flex; gap:12px; align-items:center; flex-wrap:wrap;">
+      <span style="font-size:0.7rem; color:var(--text-secondary); font-weight:500;">Wallpaper</span>
+      <div class="wallpaper-option" style="background:linear-gradient(135deg,#0f0c29,#302b63,#24243e);" onclick="changeWallpaper('wallpaper-1')"></div>
+      <div class="wallpaper-option" style="background:linear-gradient(135deg,#1a1a2e,#16213e,#0f3460);" onclick="changeWallpaper('wallpaper-2')"></div>
+      <div class="wallpaper-option" style="background:linear-gradient(135deg,#2d1b69,#11998e,#38ef7d);" onclick="changeWallpaper('wallpaper-3')"></div>
+      <label class="upload-btn" style="background:var(--bg-card); border:1px solid var(--border-glass); padding:6px 16px; border-radius:8px; color:var(--text-secondary); font-size:0.7rem; cursor:pointer; transition:0.2s; display:flex; align-items:center; gap:6px;">
+        <i class="fa-solid fa-upload"></i> Upload
+        <input type="file" accept="image/*" style="display:none;" id="wallpaperUpload" onchange="uploadWallpaper(event)">
+      </label>
+    </div>
+  </div>
 
-    <script src="script.js"></script>
+  <div id="taskbar">
+    <div class="logo-area" onclick="toggleMenu()">
+      <svg class="logo-small" viewBox="0 0 28 28" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect class="bg-shape" x="2" y="2" width="24" height="24" rx="6"/>
+        <path class="ring" d="M8 22 C14 25, 22 20, 20 14 C18 8, 10 6, 8 11 C6 16, 10 20, 14 19 C18 18, 20 13, 17 11" stroke="var(--accent)" stroke-width="2" stroke-linecap="round"/>
+        <text class="j-letter" x="8" y="19" fill="var(--text-primary)" font-family="Inter" font-weight="700" font-size="14">J</text>
+        <circle class="dot" cx="21" cy="11" r="1.5" fill="var(--text-primary)" fill-opacity="0.7"/>
+      </svg>
+      <span class="logo-text">Jer<span>OS</span></span>
+    </div>
+    <div id="taskbar-apps"></div>
+    <div id="system-tray">
+      <span class="tray-icon" id="tray-network" title="Network"><i class="fa-solid fa-wifi"></i></span>
+      <span class="tray-icon" id="tray-volume" title="Volume"><i class="fa-solid fa-volume-high"></i></span>
+      <span class="tray-icon" id="tray-battery" title="Battery"><i class="fa-solid fa-battery-three-quarters"></i></span>
+    </div>
+    <!-- removed #taskbar-center -->
+    <div id="tray">
+      <div class="dt">
+        <div class="tm" id="clockDisplay">--:--</div>
+        <div class="dt2" id="dateDisplay">--- --</div>
+      </div>
+    </div>
+  </div>
+
+  <div id="taskbar-context-menu">
+    <div class="ctx-item" id="ctx-taskmgr"><i class="fa-solid fa-list-check"></i> Task Manager</div>
+    <div class="ctx-item" id="ctx-settings"><i class="fa-solid fa-sliders"></i> Settings</div>
+    <div class="ctx-divider"></div>
+    <div class="ctx-item" id="ctx-startmenu"><i class="fa-solid fa-grid-2"></i> Start Menu</div>
+  </div>
+
+  <div id="shortcuts-popup">
+    <div class="shortcuts-content">
+      <h3 style="color:var(--text-primary); margin-bottom:10px;">Keyboard Shortcuts</h3>
+      <div style="display:grid; grid-template-columns:1fr 1fr; gap:6px; font-size:0.8rem; color:var(--text-secondary);">
+        <div><span style="color:var(--accent);">Alt+M</span> Open Menu</div>
+        <div><span style="color:var(--accent);">Esc</span> Close Menu</div>
+        <div><span style="color:var(--accent);">Alt+T</span> Terminal</div>
+        <div><span style="color:var(--accent);">Alt+N</span> Notes</div>
+      </div>
+      <button onclick="closeShortcuts()" style="margin-top:10px; background:var(--bg-card); border:1px solid var(--border-glass); padding:4px 14px; border-radius:4px; color:var(--text-secondary); cursor:pointer;">Close</button>
+    </div>
+  </div>
+
+  <div id="notification-container"></div>
+
+  <div id="context-menu">
+    <div class="ctx-item" id="ctx-wallpaper"><i class="fa-solid fa-image"></i> Change Wallpaper</div>
+    <div class="ctx-item" id="ctx-refresh"><i class="fa-solid fa-rotate"></i> Refresh</div>
+  </div>
+
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
