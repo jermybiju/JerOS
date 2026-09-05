@@ -28,6 +28,9 @@ Window snapping
  More terminal commands
  Maybe a music player
  etc.
+ 
+ ## things that was annoying to fix
+A few things really tested my patience. The calculator history kept showing duplicate headings for some reason, took me a while to figure out why and fix it properly. Then there was the terminal prompt – looked great in dark mode, but in light mode it just vanished. Had to add a separate color just for that. Windows dragging and resizing was another headache, getting all the edge cases right took longer than I expected. And the battery API? Doesn't work on every browser, so I had to add fallbacks to make sure it doesn't break for everyone. Fun times.
 
 ## Known issues
 There are a few things that still need work. The volume control is just a mock and won't actually change your system volume because browsers don't allow that. Drawings vanish when you refresh the page since they're not saved anywhere yet. Also, the layout can get a bit messy on really small phone screens – something I need to sort out eventually.
