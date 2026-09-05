@@ -1,65 +1,36 @@
 # JerOS
 
-A modern web-based operating system built for the **Stardance WebOS 1 mission**.
-
-JerOS is an interactive desktop environment that runs directly in the browser. The goal of the project is to create a functional operating system-like experience using web technologies rather than simply designing a webpage that looks like a desktop.
-
-## Features
-
-* Desktop environment
-* Start menu and application search
-* Taskbar
-* Interactive application windows
-* Terminal emulator
-* Notes application
-* Drawing application
-* File manager
-* Calculator
-* Settings and wallpaper customization
-* Task manager
-* Keyboard shortcuts
-* Live clock and date
-
-## Built With
-
-* HTML
-* CSS
-* JavaScript
-
-The project is built using vanilla web technologies without relying on a major front-end framework.
-
-## Running Locally
-
-Clone the repository:
-
-```bash id="w7p9ts"
-git clone https://github.com/JERMYBIJU/JerOS.git
-```
-
-Open the project directory:
-
-```bash id="jfr48c"
-cd JerOS
-```
-
-Then open `index.html` in a modern web browser.
-
 ## Live Demo
 
 JerOS is available here:
 
-https://jermybiju.github.io/JerOS/
+[https://jermybiju.github.io/JerOS/](https://jermybiju.github.io/JerOS/)
 
-## Project Goal
+A web-based OS I built for starndace
 
-The goal of JerOS is to explore how web technologies can be used to create an interactive desktop-style environment inside a browser.
+## What it does
+A brief rundown of what JerOS can do. It has a desktop with app icons, a calculator with a history sidebar that now shows the full expression, and a file manager that actually opens folders. There's a terminal with basic commands, notes that save to localStorage, a drawing canvas, and a system tray with network, battery, and volume. Also supports light and dark mode, and you can upload custom wallpapers.
 
-The project focuses on concepts such as window management, DOM manipulation, user interaction, application state, browser storage, and UI design.
+## Why I built this
+Wanted to see if I could make a browser act like an operating system. Started with just terminal and notes, slowly added more stuff. Learned a lot about JavaScript and CSS along the way.
 
-## Stardance
+## What I wrote myself
+Calculator logic and history sidebar
+File manager folder navigation
+System tray with network/battery APIs  
+Terminal prompt color switching
+Most of the UI styling and layout
+ Dark/light mode fixes
 
-JerOS was created as part of the **Stardance WebOS 1 mission**.
+ ## What I'd add next
+Window snapping
+ Minimize animation
+ More terminal commands
+ Maybe a music player
+ etc.
 
----
+## Known issues
+There are a few things that still need work. The volume control is just a mock and won't actually change your system volume because browsers don't allow that. Drawings vanish when you refresh the page since they're not saved anywhere yet. Also, the layout can get a bit messy on really small phone screens – something I need to sort out eventually.
 
-**JerOS — Your Web. Your Workspace. Your OS.**
+## Credits
+Built by Jermy Biju
