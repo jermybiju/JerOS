@@ -1,5 +1,4 @@
 /* JerOS Style Sheet */
-
 * {
     margin: 0;
     padding: 0;
@@ -33,7 +32,6 @@
     --radius-window: 16px;
     --radius-sm: 8px;
     --font: 'Inter', -apple-system, sans-serif;
-    /* Terminal prompt color - dark mode (Green) */
     --prompt-color: #00ff00;
 }
 
@@ -60,7 +58,6 @@
     --shadow-glass: 0 8px 32px rgba(0,0,0,0.08);
     --shadow-menu: 0 20px 60px rgba(0,0,0,0.12);
     --shadow-notif: 0 12px 40px rgba(0,0,0,0.1);
-    /* Terminal prompt color - light mode (Dark Gray) */
     --prompt-color: #333333;
 }
 
@@ -73,7 +70,6 @@ body {
     transition: background 0.3s ease, color 0.3s ease;
 }
 
-/* LOGO */
 .jeros-logo { width: 48px; height: 48px; }
 .jeros-logo .bg-shape { fill: var(--accent); opacity: 0.15; rx: 14; }
 .jeros-logo .ring { fill: none; stroke: var(--accent); stroke-width: 2.5; stroke-linecap: round; stroke-dasharray: 80 100; animation: orbitSpin 8s linear infinite; }
@@ -87,7 +83,6 @@ body {
 .logo-medium { width: 36px; height: 36px; }
 .logo-large { width: 56px; height: 56px; }
 
-/* BOOT */
 #boot {
     position: fixed;
     inset: 0;
@@ -111,7 +106,6 @@ body {
 }
 #boot .status { font-size: 0.65rem; color: var(--text-muted); text-transform: uppercase; letter-spacing: 1.2px; }
 
-/* DESKTOP */
 #desktop {
     position: relative;
     width: 100vw;
@@ -134,7 +128,6 @@ body {
 .wallpaper-2 { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); }
 .wallpaper-3 { background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d); }
 
-/* ICONS — Bigger, Better Visibility */
 #icons {
     position: absolute;
     top: 28px;
@@ -185,13 +178,11 @@ body {
 }
 .icon-item:active { transform: scale(0.95); }
 
-/* Light Mode — Icon labels white (ensured) */
 .light-mode .icon-item .lbl {
     color: #ffffff;
     text-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
 
-/* TASKBAR */
 #taskbar {
     position: absolute;
     bottom: 16px;
@@ -219,10 +210,9 @@ body {
 #taskbar-center { flex: 1; display: flex; justify-content: center; color: var(--text-muted); font-size: 0.6rem; font-weight: 400; letter-spacing: 0.5px; text-transform: uppercase; opacity: 0.4; }
 #tray { display: flex; align-items: center; gap: 14px; color: var(--text-secondary); font-size: 0.75rem; font-weight: 500; padding-left: 14px; border-left: 1px solid var(--border-glass); }
 #tray .dt { text-align: right; line-height: 1.2; }
-#tray .tm { font-size: 0.8rem; color: var(--text-primary); }
-#tray .dt2 { font-size: 0.55rem; color: var(--text-muted); }
+#tray .tm { font-size: 1rem; color: var(--text-primary); font-weight:600 }
+#tray .dt2 { font-size: 0.75rem; color: var(--text-muted); }
 
-/* SYSTEM TRAY */
 #system-tray {
     display: flex;
     align-items: center;
@@ -243,7 +233,6 @@ body {
     color: var(--accent);
 }
 
-/* TASKBAR APPS */
 #taskbar-apps {
     display: flex;
     flex: 1;
@@ -286,7 +275,6 @@ body {
 }
 .taskbar-app .close-btn:hover { color: #e74c6f; }
 
-/* TASKBAR RIGHT-CLICK MENU */
 #taskbar-context-menu {
     position: fixed;
     bottom: 70px;
@@ -302,7 +290,6 @@ body {
 }
 #taskbar-context-menu.open { display: block; }
 
-/* START MENU */
 #menu {
     position: absolute;
     bottom: 76px;
@@ -335,7 +322,6 @@ body {
 #menu .grid .app:hover { background: var(--bg-card); border-color: var(--border-glass); color: var(--text-primary); }
 #menu .grid .app .ico { font-size: 1.6rem; opacity: 0.8; width: 1.6rem; text-align: center; }
 
-/* KEYBOARD SHORTCUTS POPUP */
 #shortcuts-popup {
     position: fixed;
     top: 0; left: 0;
@@ -359,7 +345,6 @@ body {
     text-align: center;
 }
 
-/* WINDOWS */
 .window {
     position: absolute;
     min-width: 320px;
@@ -496,7 +481,6 @@ body {
     #system-tray { display: none; }
 }
 
-/* FILE MANAGER */
 .file-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
@@ -538,7 +522,6 @@ body {
 .file-item:hover .file-delete { display: flex; }
 .file-item .file-delete:hover { background: #e74c6f; color: #fff; }
 
-/* CALCULATOR — History Sidebar */
 .calc-wrapper {
     display: flex;
     height: 100%;
@@ -621,7 +604,6 @@ body {
 .calc-grid .eq { background: var(--accent); color: #fff; }
 .calc-grid .eq:hover { background: #6a8aff; }
 
-/* NOTES */
 .notes-body {
     display: flex;
     flex-direction: column;
@@ -670,7 +652,6 @@ body {
     color: var(--text-primary);
 }
 
-/* NOTIFICATIONS */
 #notification-container {
     position: fixed;
     top: 20px;
@@ -712,7 +693,6 @@ body {
     to { opacity: 0; transform: translateX(30px); }
 }
 
-/* CONTEXT MENU */
 #context-menu {
     position: fixed;
     background: var(--bg-context);
@@ -741,7 +721,6 @@ body {
 .ctx-item:hover { background: var(--bg-card); color: var(--text-primary); }
 .ctx-divider { height: 1px; background: var(--border-glass); margin: 4px 12px; }
 
-/* TERMINAL PROMPT COLOR */
 .term-prompt {
     color: var(--prompt-color);
     font-weight: bold;
