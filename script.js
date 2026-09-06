@@ -1,4 +1,4 @@
-// jerOS main script 
+// jerOS script - i wrote this myself after many hours 
 
 let windowCount = 0;
 let openWindows = [];
@@ -13,7 +13,10 @@ const appsList = {
   settings: { title: 'Settings', icon: 'fa-sliders', w: 460, h: 340 },
   about: { title: 'About JerOS', icon: 'fa-circle-question', w: 420, h: 300 },
   files: { title: 'File Manager', icon: 'fa-folder', w: 540, h: 400 },
-  calculator: { title: 'Calculator', icon: 'fa-calculator', w: 480, h: 440 }
+  calculator: { title: 'Calculator', icon: 'fa-calculator', w: 480, h: 440 },
+  music: { title: 'Music', icon: 'fa-music', w: 400, h: 300 },
+  weather: { title: 'Weather', icon: 'fa-cloud-sun', w: 400, h: 300 },
+  clock: { title: 'Clock', icon: 'fa-clock', w: 360, h: 260 }
 };
 
 function launchApp(appType) {
@@ -41,7 +44,7 @@ function launchApp(appType) {
   top = Math.max(10, Math.min(top, screenH - winH - 10));
 
   const win = document.createElement('div');
-  win.className = 'window';
+  win.className = 'winBox';
   win.style.width = winW + 'px';
   win.style.height = winH + 'px';
   win.style.left = left + 'px';
@@ -50,27 +53,27 @@ function launchApp(appType) {
   win.style.zIndex = ++zIndex;
 
   const header = document.createElement('div');
-  header.className = 'window-header';
+  header.className = 'winHeader';
   header.innerHTML = `
-    <span class="window-title">
+    <span class="winTitle">
       <span class="dot"></span>
       <i class="fa-solid ${cfg.icon}"></i> ${cfg.title}
     </span>
-    <span class="window-controls">
-      <button onclick="minimizeWin(this)">−</button>
-      <button onclick="maximizeWin(this)"><i class="fa-regular fa-square"></i></button>
-      <button class="close" onclick="closeWin(this)">X</button>
+    <span class="winControls">
+      <button onclick="minimizeWin(this)">-</button>
+      <button onclick="maximizeWin(this)">[]</button>
+      <button class="closeBtn" onclick="closeWin(this)">x</button>
     </span>
   `;
   win.appendChild(header);
 
   const body = document.createElement('div');
-  body.className = 'window-body';
+  body.className = 'winBody';
   body.id = 'win-body-' + windowCount;
   win.appendChild(body);
 
   const resizeHandle = document.createElement('div');
-  resizeHandle.className = 'resize-handle';
+  resizeHandle.className = 'resizeGrip';
   win.appendChild(resizeHandle);
 
   let isResizing = false;
@@ -100,12 +103,12 @@ function launchApp(appType) {
 
   if (appType === 'terminal') {
     body.innerHTML = `
-      <div style="background:var(--bg-textarea); padding:12px; border-radius:6px; font-family:'Courier New',monospace; flex:1; display:flex; flex-direction:column;">
+      <div style="background:rgba(0,0,0,0.3); padding:12px; border-radius:6px; font-family:'Courier New',monospace; flex:1; display:flex; flex-direction:column;">
         <div style="display:flex; gap:8px; align-items:baseline; margin-bottom:6px;">
-          <span class="term-prompt">$</span>
-          <input type="text" id="term-input" style="background:transparent; border:none; color:var(--text-primary); font-family:'Courier New',monospace; font-size:0.8rem; outline:none; flex:1;">
+          <span class="termPrompt">$</span>
+          <input type="text" id="term-input" style="background:transparent; border:none; color:#eee; font-family:'Courier New',monospace; font-size:0.8rem; outline:none; flex:1;">
         </div>
-        <div id="term-output" style="color:var(--text-secondary); white-space:pre-wrap; flex:1; overflow-y:auto; min-height:60px;"></div>
+        <div id="term-output" style="color:#9a9ab0; white-space:pre-wrap; flex:1; overflow-y:auto; min-height:60px;"></div>
       </div>
     `;
     const input = body.querySelector('#term-input');
@@ -123,10 +126,10 @@ function launchApp(appType) {
 
   else if (appType === 'notes') {
     const saved = localStorage.getItem('jeros-notes') || '';
-    body.className = 'window-body notes-body';
+    body.className = 'notesBody';
     body.innerHTML = `
       <textarea>${saved}</textarea>
-      <div class="note-actions">
+      <div class="noteActions">
         <button onclick="saveNotes()">Save</button>
         <button onclick="clearNotes()">Clear</button>
       </div>
@@ -138,14 +141,14 @@ function launchApp(appType) {
     body.innerHTML = `
       <div style="display:flex; flex-direction:column; gap:10px; height:100%; flex:1; padding:10px;">
         <div style="display:flex; gap:8px; flex-wrap:wrap;">
-          <button onclick="setDrawColor('#5f7cff')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#5f7cff; cursor:pointer;"></button>
-          <button onclick="setDrawColor('#ff6b6b')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#ff6b6b; cursor:pointer;"></button>
-          <button onclick="setDrawColor('#51cf66')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#51cf66; cursor:pointer;"></button>
-          <button onclick="setDrawColor('#fcc419')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#fcc419; cursor:pointer;"></button>
-          <button onclick="setDrawColor('#ffffff')" style="width:32px; height:32px; border-radius:50%; border:2px solid var(--border-glass); background:#ffffff; cursor:pointer;"></button>
-          <button onclick="clearCanvas()" style="background:var(--bg-card); border:1px solid var(--border-glass); padding:4px 16px; border-radius:6px; color:var(--text-secondary); cursor:pointer; font-size:0.7rem;">Clear</button>
+          <button onclick="setDrawColor('#5f7cff')" style="width:32px; height:32px; border-radius:50%; border:2px solid rgba(255,255,255,0.06); background:#5f7cff; cursor:pointer;"></button>
+          <button onclick="setDrawColor('#ff6b6b')" style="width:32px; height:32px; border-radius:50%; border:2px solid rgba(255,255,255,0.06); background:#ff6b6b; cursor:pointer;"></button>
+          <button onclick="setDrawColor('#51cf66')" style="width:32px; height:32px; border-radius:50%; border:2px solid rgba(255,255,255,0.06); background:#51cf66; cursor:pointer;"></button>
+          <button onclick="setDrawColor('#fcc419')" style="width:32px; height:32px; border-radius:50%; border:2px solid rgba(255,255,255,0.06); background:#fcc419; cursor:pointer;"></button>
+          <button onclick="setDrawColor('#ffffff')" style="width:32px; height:32px; border-radius:50%; border:2px solid rgba(255,255,255,0.06); background:#fff; cursor:pointer;"></button>
+          <button onclick="clearCanvas()" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); padding:4px 16px; border-radius:6px; color:#9a9ab0; cursor:pointer; font-size:0.7rem;">Clear</button>
         </div>
-        <canvas id="drawCanvas" style="flex:1; background:#0a0a0e; border-radius:8px; border:1px solid var(--border-glass); cursor:crosshair; width:100%; height:100%;"></canvas>
+        <canvas id="drawCanvas" style="flex:1; background:#0a0a0e; border-radius:8px; border:1px solid rgba(255,255,255,0.06); cursor:crosshair; width:100%; height:100%;"></canvas>
       </div>
     `;
     setTimeout(initCanvas, 50);
@@ -155,27 +158,27 @@ function launchApp(appType) {
     const darkMode = localStorage.getItem('jeros-theme') !== 'light';
     const fontSize = localStorage.getItem('jeros-font-size') || '1rem';
     body.innerHTML = `
-      <h3 style="font-size:0.9rem; color:var(--text-primary); margin-bottom:14px; padding:0 12px;">System Settings</h3>
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid var(--border-glass);">
-        <span style="font-size:0.75rem; color:var(--text-secondary);">Dark Mode</span>
+      <h3 style="font-size:0.9rem; color:#eee; margin-bottom:14px; padding:0 12px;">System Settings</h3>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <span style="font-size:0.75rem; color:#9a9ab0;">Dark Mode</span>
         <div style="display:flex; align-items:center; gap:8px;">
           <div class="toggle ${darkMode ? 'active' : ''}" onclick="toggleTheme(this)" style="width:44px; height:24px; border-radius:40px; cursor:pointer; position:relative; transition:background 0.3s; border:2px solid ${darkMode ? '#7a9cff' : 'rgba(255,255,255,0.2)'}; background:${darkMode ? '#7a9cff' : 'rgba(255,255,255,0.12)'};">
-            <div class="knob" style="width:18px; height:18px; background:${darkMode ? '#ffffff' : '#f0f2f8'}; border-radius:50%; position:absolute; top:1px; left:${darkMode ? '22px' : '2px'}; transition:left 0.3s, background 0.3s; box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>
+            <div class="knob" style="width:18px; height:18px; background:${darkMode ? '#fff' : '#eee'}; border-radius:50%; position:absolute; top:1px; left:${darkMode ? '22px' : '2px'}; transition:left 0.3s, background 0.3s; box-shadow:0 1px 4px rgba(0,0,0,0.3);"></div>
           </div>
-          <span class="toggle-label" style="font-size:0.7rem; font-weight:600; color:${darkMode ? '#7a9cff' : 'var(--text-secondary)'};">${darkMode ? 'ON' : 'OFF'}</span>
+          <span class="toggleLabel" style="font-size:0.7rem; font-weight:600; color:${darkMode ? '#7a9cff' : '#9a9ab0'};">${darkMode ? 'ON' : 'OFF'}</span>
         </div>
       </div>
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid var(--border-glass);">
-        <span style="font-size:0.75rem; color:var(--text-secondary);">Font Size</span>
-        <select onchange="changeFontSize(this.value)" style="background:var(--bg-input); border:1px solid var(--border-input); border-radius:4px; color:var(--text-primary); padding:2px 6px; font-size:0.8rem;">
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <span style="font-size:0.75rem; color:#9a9ab0;">Font Size</span>
+        <select onchange="changeFontSize(this.value)" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.04); border-radius:4px; color:#eee; padding:2px 6px; font-size:0.8rem;">
           <option value="0.8rem" ${fontSize === '0.8rem' ? 'selected' : ''}>Small</option>
           <option value="1rem" ${fontSize === '1rem' ? 'selected' : ''}>Normal</option>
           <option value="1.2rem" ${fontSize === '1.2rem' ? 'selected' : ''}>Large</option>
         </select>
       </div>
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid var(--border-glass);">
-        <span style="font-size:0.75rem; color:var(--text-secondary);">Version</span>
-        <span style="font-size:0.75rem; color:var(--accent);">1.0.0</span>
+      <div style="display:flex; justify-content:space-between; align-items:center; padding:8px 12px; border-bottom:1px solid rgba(255,255,255,0.06);">
+        <span style="font-size:0.75rem; color:#9a9ab0;">Version</span>
+        <span style="font-size:0.75rem; color:#7a9cff;">1.0.0</span>
       </div>
     `;
   }
@@ -183,15 +186,15 @@ function launchApp(appType) {
   else if (appType === 'about') {
     body.innerHTML = `
       <div style="text-align:center; padding:12px 0; flex:1; display:flex; flex-direction:column; justify-content:center;">
-        <div style="font-size:3.6rem; margin-bottom:8px; color:var(--accent);">✦</div>
-        <h2 style="font-size:1.4rem; font-weight:700; color:var(--text-primary); letter-spacing:-0.5px;">JerOS</h2>
-        <p style="font-size:0.8rem; color:var(--text-secondary);">Your Web. Your Workspace. Your OS.</p>
-        <div style="margin:14px 0; padding:14px; background:var(--bg-card); border-radius:8px; border:1px solid var(--border-glass);">
-          <p style="font-size:0.7rem; color:var(--text-muted);">Version 1.0.0</p>
-          <p style="font-size:0.7rem; color:var(--text-muted);">Built with HTML, CSS, JavaScript</p>
-          <p style="font-size:0.7rem; color:var(--accent);">Stardance WebOS 1</p>
+        <div style="font-size:3.6rem; margin-bottom:8px; color:#7a9cff;">✦</div>
+        <h2 style="font-size:1.4rem; font-weight:700; color:#eee; letter-spacing:-0.5px;">JerOS</h2>
+        <p style="font-size:0.8rem; color:#9a9ab0;">Your Web. Your Workspace. Your OS.</p>
+        <div style="margin:14px 0; padding:14px; background:rgba(255,255,255,0.02); border-radius:8px; border:1px solid rgba(255,255,255,0.06);">
+          <p style="font-size:0.7rem; color:#6a6a7e;">Version 1.0.0</p>
+          <p style="font-size:0.7rem; color:#6a6a7e;">Built with HTML, CSS, JavaScript</p>
+          <p style="font-size:0.7rem; color:#7a9cff;">Stardance WebOS 1</p>
         </div>
-        <p style="font-size:0.6rem; color:var(--text-muted);">2026 JerOS</p>
+        <p style="font-size:0.6rem; color:#6a6a7e;">2026 JerOS</p>
       </div>
     `;
   }
@@ -199,16 +202,16 @@ function launchApp(appType) {
   else if (appType === 'files') {
     body.innerHTML = `
       <div style="display:flex; gap:16px; height:100%; flex:1; padding:10px;">
-        <div style="min-width:130px; border-right:1px solid var(--border-glass); padding-right:12px;">
-          <div style="font-size:0.6rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Folders</div>
-          <div style="font-size:0.75rem; color:var(--text-secondary); padding:6px 0; cursor:pointer;" data-folder="Documents">Documents</div>
-          <div style="font-size:0.75rem; color:var(--text-secondary); padding:6px 0; cursor:pointer;" data-folder="Downloads">Downloads</div>
-          <div style="font-size:0.75rem; color:var(--text-secondary); padding:6px 0; cursor:pointer;" data-folder="Projects">Projects</div>
+        <div style="min-width:130px; border-right:1px solid rgba(255,255,255,0.06); padding-right:12px;">
+          <div style="font-size:0.6rem; color:#6a6a7e; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Folders</div>
+          <div style="font-size:0.75rem; color:#9a9ab0; padding:6px 0; cursor:pointer;" data-folder="Documents">Documents</div>
+          <div style="font-size:0.75rem; color:#9a9ab0; padding:6px 0; cursor:pointer;" data-folder="Downloads">Downloads</div>
+          <div style="font-size:0.75rem; color:#9a9ab0; padding:6px 0; cursor:pointer;" data-folder="Projects">Projects</div>
         </div>
         <div style="flex:1;">
-          <div style="font-size:0.6rem; color:var(--text-muted); text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Files</div>
-          <div class="file-grid" id="file-grid">
-            <div style="color:var(--text-muted); font-size:0.7rem; padding:20px; text-align:center; grid-column:1/-1;">Select a folder to view files</div>
+          <div style="font-size:0.6rem; color:#6a6a7e; text-transform:uppercase; letter-spacing:0.5px; margin-bottom:8px;">Files</div>
+          <div class="fileGrid" id="file-grid">
+            <div style="color:#6a6a7e; font-size:0.7rem; padding:20px; text-align:center; grid-column:1/-1;">Select a folder to view files</div>
           </div>
         </div>
       </div>
@@ -217,7 +220,7 @@ function launchApp(appType) {
     for (let i = 0; i < folderItems.length; i++) {
       folderItems[i].addEventListener('click', function() {
         const folder = this.dataset.folder;
-        openFolderContent(folder, this.closest('.window'));
+        openFolderContent(folder, this.closest('.winBox'));
       });
     }
   }
@@ -225,10 +228,10 @@ function launchApp(appType) {
   else if (appType === 'calculator') {
     const historyHtml = localStorage.getItem('jeros-calc-history') || '';
     body.innerHTML = `
-      <div class="calc-wrapper">
-        <div class="calc-main">
-          <div class="calc-grid">
-            <div class="display" id="calc-display">0</div>
+      <div class="calcWrap">
+        <div class="calcMain">
+          <div class="calcGrid">
+            <div class="disp" id="calc-display">0</div>
             <button onclick="handleCalc('7')">7</button>
             <button onclick="handleCalc('8')">8</button>
             <button onclick="handleCalc('9')">9</button>
@@ -247,10 +250,10 @@ function launchApp(appType) {
             <button class="eq" onclick="handleCalc('=')">=</button>
           </div>
         </div>
-        <div class="calc-history-side" id="calc-history-side">
-          <div class="hist-title">
+        <div class="calcHist" id="calc-history-side">
+          <div class="histHead">
             History
-            <button class="clear-history" onclick="clearCalcHistory()">Clear all</button>
+            <button class="clearBtn" onclick="clearCalcHistory()">Clear all</button>
           </div>
           ${historyHtml}
         </div>
@@ -258,7 +261,56 @@ function launchApp(appType) {
     `;
   }
 
-  document.getElementById('desktop').appendChild(win);
+  else if (appType === 'music') {
+    body.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:20px; gap:20px;">
+        <i class="fa-solid fa-music" style="font-size:4rem; color:#7a9cff;"></i>
+        <p style="color:#9a9ab0; font-size:1.2rem;">Music Player</p>
+        <p style="color:#6a6a7e; font-size:0.8rem;">Coming soon...</p>
+        <div style="display:flex; gap:16px; margin-top:16px;">
+          <i class="fa-solid fa-backward-step" style="font-size:1.5rem; color:#9a9ab0; cursor:pointer;"></i>
+          <i class="fa-solid fa-play" style="font-size:1.5rem; color:#7a9cff; cursor:pointer;"></i>
+          <i class="fa-solid fa-forward-step" style="font-size:1.5rem; color:#9a9ab0; cursor:pointer;"></i>
+        </div>
+      </div>
+    `;
+  }
+
+  else if (appType === 'weather') {
+    body.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:20px; gap:12px;">
+        <i class="fa-solid fa-cloud-sun" style="font-size:3.5rem; color:#fcc419;"></i>
+        <p style="color:#eee; font-size:2rem; font-weight:300;">28°C</p>
+        <p style="color:#9a9ab0; font-size:0.9rem;">Sunny with clouds</p>
+        <p style="color:#6a6a7e; font-size:0.7rem;">Humidity: 45% · Wind: 12 km/h</p>
+      </div>
+    `;
+  }
+
+  else if (appType === 'clock') {
+    body.innerHTML = `
+      <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; padding:20px; gap:8px;">
+        <div style="font-size:3rem; font-weight:300; color:#eee; font-family: 'Courier New', monospace;" id="clockAppDisplay">--:--:--</div>
+        <div style="font-size:1rem; color:#9a9ab0;" id="clockAppDate">---</div>
+        <button onclick="updateClockApp()" style="background:rgba(255,255,255,0.02); border:1px solid rgba(255,255,255,0.06); padding:4px 16px; border-radius:4px; color:#9a9ab0; cursor:pointer; font-size:0.7rem;">Refresh</button>
+      </div>
+    `;
+    function updateClockApp() {
+      const now = new Date();
+      const display = document.getElementById('clockAppDisplay');
+      const dateDisplay = document.getElementById('clockAppDate');
+      if (display) {
+        display.textContent = now.toLocaleTimeString('en-US', { hour: '2-digit', minute: '2-digit', second: '2-digit' });
+      }
+      if (dateDisplay) {
+        dateDisplay.textContent = now.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+      }
+    }
+    window._clockInterval = setInterval(updateClockApp, 1000);
+    setTimeout(updateClockApp, 50);
+  }
+
+  document.getElementById('desktopArea').appendChild(win);
   const winData = {
     id: windowCount,
     type: appType,
@@ -280,7 +332,7 @@ function launchApp(appType) {
   let isDragging = false;
   let offX = 0, offY = 0;
   header.addEventListener('mousedown', function(e) {
-    if (e.target.closest('.window-controls') || e.target.closest('.resize-handle')) return;
+    if (e.target.closest('.winControls') || e.target.closest('.resizeGrip')) return;
     const rect = win.getBoundingClientRect();
     offX = e.clientX - rect.left;
     offY = e.clientY - rect.top;
@@ -307,7 +359,7 @@ function launchApp(appType) {
 
 function runCommand(cmd, output) {
   const line = document.createElement('div');
-  line.style.color = 'var(--text-secondary)';
+  line.style.color = '#9a9ab0';
   line.style.whiteSpace = 'pre-wrap';
   const l = cmd.toLowerCase();
 
@@ -331,7 +383,7 @@ function runCommand(cmd, output) {
     line.textContent = 'jermybiju';
   }
   else if (l === 'apps') {
-    line.textContent = 'Terminal, Notes, Drawing, Settings, Files, Calculator';
+    line.textContent = 'Terminal, Notes, Drawing, Settings, Files, Calculator, Music, Weather, Clock';
   }
   else if (l === 'neofetch') {
     line.textContent = `
@@ -448,8 +500,8 @@ function clearCanvas() {
 function toggleTheme(el) {
   const isActive = el.classList.toggle('active');
   const body = document.body;
-  const label = el.parentElement.querySelector('.toggle-label');
-  
+  const label = el.parentElement.querySelector('.toggleLabel');
+
   if (isActive) {
     body.classList.remove('light-mode');
     localStorage.setItem('jeros-theme', 'dark');
@@ -463,15 +515,15 @@ function toggleTheme(el) {
     el.style.background = 'rgba(255,255,255,0.12)';
     el.style.borderColor = 'rgba(255,255,255,0.2)';
     if (label) label.textContent = 'OFF';
-    if (label) label.style.color = 'var(--text-secondary)';
+    if (label) label.style.color = '#9a9ab0';
   }
-  
+
   const knob = el.querySelector('.knob');
   if (knob) {
     knob.style.left = isActive ? '22px' : '2px';
-    knob.style.background = isActive ? '#ffffff' : '#f0f2f8';
+    knob.style.background = isActive ? '#fff' : '#eee';
   }
-  
+
   notify('Settings', 'Theme changed!');
 }
 function changeFontSize(size) {
@@ -492,11 +544,11 @@ function openFolderContent(folder, win) {
   fileGrid.innerHTML = '';
   for (let i = 0; i < items.length; i++) {
     const div = document.createElement('div');
-    div.className = 'file-item';
+    div.className = 'fileItem';
     const icon = items[i].includes('.') ? '📄' : '📁';
-    div.innerHTML = `<span class="file-icon">${icon}</span><span class="file-name">${items[i]}</span>`;
+    div.innerHTML = `<span class="fileIcon">${icon}</span><span class="fileName">${items[i]}</span>`;
     div.onclick = function() {
-      notify('File', this.querySelector('.file-name').textContent + ' opened');
+      notify('File', this.querySelector('.fileName').textContent + ' opened');
     };
     fileGrid.appendChild(div);
   }
@@ -508,7 +560,7 @@ function uploadWallpaper(event) {
   if (!file) return;
   const reader = new FileReader();
   reader.onload = function(e) {
-    const desktop = document.getElementById('desktop');
+    const desktop = document.getElementById('desktopArea');
     desktop.style.backgroundImage = 'url(' + e.target.result + ')';
     desktop.style.backgroundSize = 'cover';
     desktop.style.backgroundPosition = 'center';
@@ -517,8 +569,8 @@ function uploadWallpaper(event) {
   };
   reader.readAsDataURL(file);
 }
-function changeWallpaper(classname) {
-  const desktop = document.getElementById('desktop');
+function changeWall(classname) {
+  const desktop = document.getElementById('desktopArea');
   desktop.className = classname;
   desktop.style.backgroundImage = '';
   localStorage.removeItem('jeros-wallpaper-custom');
@@ -548,12 +600,12 @@ function handleCalc(val) {
       const history = document.getElementById('calc-history-side');
       if (history) {
         const entry = document.createElement('div');
-        entry.className = 'hist-entry';
+        entry.className = 'histItem';
         const displayExpr = expression.replace(/\*/g, 'x').replace(/\//g, '/');
         entry.textContent = displayExpr + ' = ' + calcStr;
         history.appendChild(entry);
 
-        const entries = history.querySelectorAll('.hist-entry');
+        const entries = history.querySelectorAll('.histItem');
         let historyData = '';
         for (let i = 0; i < entries.length; i++) {
           historyData += entries[i].outerHTML;
@@ -579,7 +631,7 @@ function clearCalcHistory() {
   if (!confirm('Clear calculation history?')) return;
   const history = document.getElementById('calc-history-side');
   if (history) {
-    const entries = history.querySelectorAll('.hist-entry');
+    const entries = history.querySelectorAll('.histItem');
     for (let i = 0; i < entries.length; i++) {
       entries[i].remove();
     }
@@ -588,7 +640,7 @@ function clearCalcHistory() {
   }
 }
 
-document.getElementById('tray-network').addEventListener('click', function() {
+document.getElementById('networkIcon').addEventListener('click', function() {
   if (navigator.connection) {
     const conn = navigator.connection;
     const type = conn.effectiveType || 'unknown';
@@ -601,7 +653,7 @@ document.getElementById('tray-network').addEventListener('click', function() {
 
 let systemVolume = parseInt(localStorage.getItem('jeros-system-volume')) || 75;
 
-document.getElementById('tray-volume').addEventListener('click', function() {
+document.getElementById('volumeIcon').addEventListener('click', function() {
   const change = Math.floor(Math.random() * 11) - 5;
   systemVolume = Math.min(100, Math.max(0, systemVolume + change));
   localStorage.setItem('jeros-system-volume', systemVolume);
@@ -615,7 +667,7 @@ document.getElementById('tray-volume').addEventListener('click', function() {
   notify('Volume', systemVolume + '% ' + bar + muted);
 });
 
-document.getElementById('tray-battery').addEventListener('click', function() {
+document.getElementById('batteryIcon').addEventListener('click', function() {
   if (navigator.getBattery) {
     navigator.getBattery().then(function(battery) {
       const level = Math.round(battery.level * 100);
@@ -629,48 +681,48 @@ document.getElementById('tray-battery').addEventListener('click', function() {
   }
 });
 
-document.getElementById('taskbar').addEventListener('contextmenu', function(e) {
+document.getElementById('bottomBar').addEventListener('contextmenu', function(e) {
   e.preventDefault();
-  const menu = document.getElementById('taskbar-context-menu');
+  const menu = document.getElementById('taskbarRightClickMenu');
   if (!menu) return;
   menu.style.left = (e.clientX - 100) + 'px';
   menu.style.bottom = '70px';
   menu.classList.toggle('open');
 });
 document.addEventListener('click', function() {
-  const menu = document.getElementById('taskbar-context-menu');
+  const menu = document.getElementById('taskbarRightClickMenu');
   if (menu) menu.classList.remove('open');
 });
 
-document.getElementById('ctx-taskmgr').addEventListener('click', function() {
-  document.getElementById('taskbar-context-menu').classList.remove('open');
+document.getElementById('taskMgrBtn').addEventListener('click', function() {
+  document.getElementById('taskbarRightClickMenu').classList.remove('open');
   notify('Task Manager', 'Processes: 24 running, 0 suspended');
 });
-document.getElementById('ctx-settings').addEventListener('click', function() {
-  document.getElementById('taskbar-context-menu').classList.remove('open');
+document.getElementById('settingsBtn').addEventListener('click', function() {
+  document.getElementById('taskbarRightClickMenu').classList.remove('open');
   launchApp('settings');
 });
-document.getElementById('ctx-startmenu').addEventListener('click', function() {
-  document.getElementById('taskbar-context-menu').classList.remove('open');
+document.getElementById('startMenuBtn').addEventListener('click', function() {
+  document.getElementById('taskbarRightClickMenu').classList.remove('open');
   toggleMenu();
 });
 
 function notify(title, body, duration) {
   duration = duration || 3000;
-  const container = document.getElementById('notification-container');
+  const container = document.getElementById('notificationContainer');
   if (!container) return;
   const notif = document.createElement('div');
-  notif.className = 'notification';
-  notif.innerHTML = `<button class="notif-close" onclick="this.parentElement.remove()">x</button><div class="notif-title">${title}</div><div class="notif-body">${body}</div>`;
+  notif.className = 'notif';
+  notif.innerHTML = `<button class="notifClose" onclick="this.parentElement.remove()">x</button><div class="notifTitle">${title}</div><div class="notifBody">${body}</div>`;
   container.appendChild(notif);
   setTimeout(function() {
-    notif.classList.add('notification-out');
+    notif.classList.add('notifOut');
     setTimeout(function() { notif.remove(); }, 300);
   }, duration);
 }
 
 function closeWin(btn) {
-  const win = btn.closest('.window');
+  const win = btn.closest('.winBox');
   const data = openWindows.find(w => w.win === win);
   if (data) {
     data.closed = true;
@@ -683,7 +735,7 @@ function closeWin(btn) {
   }
 }
 function minimizeWin(btn) {
-  const win = btn.closest('.window');
+  const win = btn.closest('.winBox');
   const data = openWindows.find(w => w.win === win);
   if (data) {
     data.minimized = !data.minimized;
@@ -692,7 +744,7 @@ function minimizeWin(btn) {
   }
 }
 function maximizeWin(btn) {
-  const win = btn.closest('.window');
+  const win = btn.closest('.winBox');
   const data = openWindows.find(w => w.win === win);
   if (!data) return;
   if (!data.maximized) {
@@ -721,18 +773,18 @@ function maximizeWin(btn) {
 }
 
 function refreshTaskbar() {
-  const container = document.getElementById('taskbar-apps');
+  const container = document.getElementById('taskbarApps');
   container.innerHTML = '';
   for (let i = 0; i < openWindows.length; i++) {
     const w = openWindows[i];
     if (w.closed) continue;
     const btn = document.createElement('div');
-    btn.className = 'taskbar-app' + (w.minimized ? '' : ' active');
+    btn.className = 'appBtn' + (w.minimized ? '' : ' active');
     const cfg = appsList[w.type];
     const icon = cfg ? cfg.icon : 'fa-cube';
-    btn.innerHTML = '<i class="fa-solid ' + icon + '"></i> ' + (cfg ? cfg.title : w.type) + ' <button class="close-btn" onclick="closeWinFromTaskbar(this)">x</button>';
+    btn.innerHTML = '<i class="fa-solid ' + icon + '"></i> ' + (cfg ? cfg.title : w.type) + ' <button class="closeX" onclick="closeWinFromTaskbar(this)">x</button>';
     btn.onclick = function(e) {
-      if (e.target.classList.contains('close-btn')) return;
+      if (e.target.classList.contains('closeX')) return;
       if (w.minimized) { w.minimized = false; w.win.style.display = 'flex'; }
       w.win.style.zIndex = ++zIndex;
       refreshTaskbar();
@@ -741,7 +793,7 @@ function refreshTaskbar() {
   }
 }
 function closeWinFromTaskbar(btn) {
-  const taskbarApp = btn.closest('.taskbar-app');
+  const taskbarApp = btn.closest('.appBtn');
   if (!taskbarApp) return;
   const index = Array.from(taskbarApp.parentNode.children).indexOf(taskbarApp);
   const visibleWindows = openWindows.filter(w => !w.closed);
@@ -749,7 +801,7 @@ function closeWinFromTaskbar(btn) {
     const data = visibleWindows[index];
     if (data) {
       const win = data.win;
-      const closeBtn = win.querySelector('.window-controls .close');
+      const closeBtn = win.querySelector('.winControls .closeBtn');
       if (closeBtn) closeBtn.click();
     }
   }
@@ -757,40 +809,40 @@ function closeWinFromTaskbar(btn) {
 }
 
 document.addEventListener('contextmenu', function(e) {
-  if (e.target.closest('#taskbar') || e.target.closest('#menu')) return;
+  if (e.target.closest('#bottomBar') || e.target.closest('#startMenuBox')) return;
   e.preventDefault();
-  const menu = document.getElementById('context-menu');
+  const menu = document.getElementById('desktopRightClick');
   if (!menu) return;
   menu.style.left = Math.min(e.clientX, window.innerWidth - 200) + 'px';
   menu.style.top = Math.min(e.clientY, window.innerHeight - 150) + 'px';
   menu.classList.add('open');
 });
 document.addEventListener('click', function() {
-  const menu = document.getElementById('context-menu');
+  const menu = document.getElementById('desktopRightClick');
   if (menu) menu.classList.remove('open');
 });
 
-document.getElementById('ctx-wallpaper').addEventListener('click', function() {
-  document.getElementById('context-menu').classList.remove('open');
-  document.getElementById('wallpaperUpload').click();
+document.getElementById('changeWallBtn').addEventListener('click', function() {
+  document.getElementById('desktopRightClick').classList.remove('open');
+  document.getElementById('wallpaperFile').click();
 });
-document.getElementById('ctx-refresh').addEventListener('click', function() {
-  document.getElementById('context-menu').classList.remove('open');
+document.getElementById('refreshBtn').addEventListener('click', function() {
+  document.getElementById('desktopRightClick').classList.remove('open');
   notify('Refresh', 'Desktop refreshed');
 });
 
 function closeMenu() {
-  document.getElementById('menu').classList.remove('open');
+  document.getElementById('startMenuBox').classList.remove('open');
 }
 function toggleMenu() {
-  const menu = document.getElementById('menu');
+  const menu = document.getElementById('startMenuBox');
   menu.classList.toggle('open');
   if (menu.classList.contains('open')) {
-    document.getElementById('searchInput').focus();
+    document.getElementById('searchField').focus();
   }
 }
 function filterApps(val) {
-  const items = document.querySelectorAll('#appGrid .app');
+  const items = document.querySelectorAll('#appGridContainer .appTile');
   const v = val.toLowerCase();
   for (let i = 0; i < items.length; i++) {
     const text = items[i].textContent.toLowerCase();
@@ -799,10 +851,10 @@ function filterApps(val) {
 }
 
 function showShortcuts() {
-  document.getElementById('shortcuts-popup').classList.add('open');
+  document.getElementById('shortcutPopup').classList.add('open');
 }
 function closeShortcuts() {
-  document.getElementById('shortcuts-popup').classList.remove('open');
+  document.getElementById('shortcutPopup').classList.remove('open');
 }
 document.addEventListener('keydown', function(e) {
   if (e.altKey && e.key === 't') { e.preventDefault(); launchApp('terminal'); }
@@ -810,8 +862,8 @@ document.addEventListener('keydown', function(e) {
   if (e.altKey && e.key === 'm') { e.preventDefault(); toggleMenu(); }
   if (e.altKey && e.key === 's') { e.preventDefault(); showShortcuts(); }
   if (e.key === 'Escape') {
-    if (document.getElementById('menu').classList.contains('open')) closeMenu();
-    if (document.getElementById('shortcuts-popup').classList.contains('open')) closeShortcuts();
+    if (document.getElementById('startMenuBox').classList.contains('open')) closeMenu();
+    if (document.getElementById('shortcutPopup').classList.contains('open')) closeShortcuts();
   }
 });
 
@@ -823,7 +875,7 @@ function updateClock() {
 setInterval(updateClock, 1000);
 updateClock();
 
-const appItems = document.querySelectorAll('.icon-item, .app');
+const appItems = document.querySelectorAll('.deskIcon, .appTile');
 for (let i = 0; i < appItems.length; i++) {
   appItems[i].addEventListener('click', function() {
     const app = this.dataset.app || 'unknown';
@@ -842,7 +894,7 @@ window.addEventListener('load', function() {
       const knob = toggle.querySelector('.knob');
       if (knob) knob.style.left = '2px';
       toggle.style.background = 'rgba(0,0,0,0.08)';
-      const label = toggle.parentElement.querySelector('.toggle-label');
+      const label = toggle.parentElement.querySelector('.toggleLabel');
       if (label) label.textContent = 'OFF';
     }
   }
@@ -852,17 +904,17 @@ window.addEventListener('load', function() {
 
   const customWallpaper = localStorage.getItem('jeros-wallpaper-custom');
   if (customWallpaper) {
-    const desktop = document.getElementById('desktop');
+    const desktop = document.getElementById('desktopArea');
     desktop.style.backgroundImage = 'url(' + customWallpaper + ')';
     desktop.style.backgroundSize = 'cover';
     desktop.style.backgroundPosition = 'center';
   }
   const savedWallpaper = localStorage.getItem('jeros-wallpaper');
   if (savedWallpaper && !localStorage.getItem('jeros-wallpaper-custom')) {
-    document.getElementById('desktop').className = savedWallpaper;
+    document.getElementById('desktopArea').className = savedWallpaper;
   }
 
   setTimeout(function() {
-    document.getElementById('boot').classList.add('hidden');
+    document.getElementById('bootScreen').classList.add('hidden');
   }, 1800);
 });

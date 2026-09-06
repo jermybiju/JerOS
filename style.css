@@ -1,4 +1,6 @@
-/*jeros style sheet */
+/* ok so this is my css file - i wrote it all myself */
+/* its kinda messy but it works */
+
 * {
   margin: 0;
   padding: 0;
@@ -9,7 +11,7 @@
 body {
   font-family: 'Inter', -apple-system, sans-serif;
   background: #0a0a12;
-  color: #f0f2f8;
+  color: #eee;
   overflow: hidden;
   height: 100vh;
 }
@@ -19,45 +21,8 @@ body {
   color: #1a1a2e;
 }
 
-/* logo stuff - i honestly just copied this from somewhere and tweaked the colors lol */
-.jeros-logo {
-  width: 48px;
-  height: 48px;
-}
-.jeros-logo .bg-shape {
-  fill: #7a9cff;
-  opacity: 0.15;
-}
-.jeros-logo .ring {
-  fill: none;
-  stroke: #7a9cff;
-  stroke-width: 2.5;
-  stroke-linecap: round;
-  stroke-dasharray: 80 100;
-  animation: orbitSpin 8s linear infinite;
-}
-.jeros-logo .j-letter {
-  fill: #f0f2f8;
-  font-family: 'Inter', sans-serif;
-  font-weight: 700;
-  font-size: 24px;
-}
-.jeros-logo .dot {
-  fill: #f0f2f8;
-  opacity: 0.7;
-}
-
-@keyframes orbitSpin {
-  0% { stroke-dashoffset: 0; }
-  100% { stroke-dashoffset: -200; }
-}
-
-.logo-small { width: 28px; height: 28px; }
-.logo-medium { width: 36px; height: 36px; }
-.logo-large { width: 56px; height: 56px; }
-
-/* boot screen - i wanted it to look clean */
-#boot {
+/* boot screen - i wanted it to look cool */
+#bootScreen {
   position: fixed;
   inset: 0;
   background: #0a0a12;
@@ -69,57 +34,56 @@ body {
   gap: 20px;
   transition: opacity 0.6s;
 }
-#boot.hidden {
+#bootScreen.hidden {
   opacity: 0;
   pointer-events: none;
 }
-.boot-title {
+.bigTitle {
   font-size: 3rem;
   font-weight: 700;
-  color: #f0f2f8;
+  color: #eee;
 }
-.boot-title span {
+.bigTitle span {
   color: #7a9cff;
 }
-.loader {
+.loadingBar {
   width: 200px;
   height: 2px;
   background: rgba(255,255,255,0.04);
   border-radius: 4px;
   overflow: hidden;
 }
-.loader .bar {
+.loadingBar .barFill {
   width: 0%;
   height: 100%;
   background: #7a9cff;
-  animation: bootLoad 1.6s ease forwards;
+  animation: fillMe 1.6s ease forwards;
 }
-@keyframes bootLoad {
+@keyframes fillMe {
   0% { width: 0%; }
   100% { width: 100%; }
 }
-.status {
+.bootStatus {
   font-size: 0.65rem;
   color: #6a6a7e;
   text-transform: uppercase;
   letter-spacing: 1.2px;
 }
 
-/* desktop - just a container basically */
-#desktop {
+/* desktop - main area */
+#desktopArea {
   position: relative;
   width: 100vw;
   height: 100vh;
   overflow: hidden;
 }
 
-/* wallpapers - i picked colors that looked cool together */
-.wallpaper-1 { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); }
-.wallpaper-2 { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); }
-.wallpaper-3 { background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d); }
+.wall1 { background: linear-gradient(135deg, #0f0c29, #302b63, #24243e); }
+.wall2 { background: linear-gradient(135deg, #1a1a2e, #16213e, #0f3460); }
+.wall3 { background: linear-gradient(135deg, #2d1b69, #11998e, #38ef7d); }
 
 /* desktop icons */
-#icons {
+#iconContainer {
   position: absolute;
   top: 28px;
   left: 28px;
@@ -128,7 +92,7 @@ body {
   gap: 14px;
   z-index: 5;
 }
-.icon-item {
+.deskIcon {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -148,33 +112,33 @@ body {
   text-align: center;
   opacity: 0.85;
 }
-.icon-item .ico {
+.deskIcon .bigIcon {
   font-size: 2.8rem;
   color: #7a9cff;
 }
-.icon-item .lbl {
+.deskIcon .iconText {
   font-size: 0.7rem;
   font-weight: 600;
-  color: #f0f2f8;
+  color: #eee;
   text-shadow: 0 2px 8px rgba(0,0,0,0.8);
 }
-.icon-item:hover {
+.deskIcon:hover {
   background: rgba(255,255,255,0.02);
   border-color: rgba(255,255,255,0.06);
-  color: #f0f2f8;
+  color: #eee;
   opacity: 1;
   transform: translateY(-4px);
 }
-.icon-item:active {
+.deskIcon:active {
   transform: scale(0.95);
 }
-.light-mode .icon-item .lbl {
-  color: #ffffff;
+.light-mode .deskIcon .iconText {
+  color: #fff;
   text-shadow: 0 2px 8px rgba(0,0,0,0.4);
 }
 
-/* taskbar - took me forever to get the positioning right */
-#taskbar {
+/* taskbar - bottom bar */
+#bottomBar {
   position: absolute;
   bottom: 16px;
   left: 50%;
@@ -192,12 +156,12 @@ body {
   z-index: 999;
   box-shadow: 0 20px 60px rgba(0,0,0,0.8);
 }
-.light-mode #taskbar {
+.light-mode #bottomBar {
   background: #e8ebf0;
   border-color: rgba(0,0,0,0.06);
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
 }
-#taskbar .logo-area {
+#bottomBar .logoSection {
   display: flex;
   align-items: center;
   gap: 10px;
@@ -205,28 +169,28 @@ body {
   border-radius: 6px;
   cursor: pointer;
 }
-#taskbar .logo-area:hover {
+#bottomBar .logoSection:hover {
   background: rgba(255,255,255,0.02);
 }
-#taskbar .logo-text {
+#bottomBar .barLogoText {
   font-weight: 700;
   font-size: 1.2rem;
   letter-spacing: -0.3px;
-  color: #f0f2f8;
+  color: #eee;
 }
-#taskbar .logo-text span {
+#bottomBar .barLogoText span {
   color: #6a6a7e;
   font-weight: 400;
 }
-.light-mode #taskbar .logo-text {
+.light-mode #bottomBar .barLogoText {
   color: #1a1a2e;
 }
-.light-mode #taskbar .logo-text span {
+.light-mode #bottomBar .barLogoText span {
   color: #7a7a8e;
 }
 
-/* clock area - i wanted it simple */
-#tray {
+/* clock area */
+.clockArea {
   display: flex;
   align-items: center;
   gap: 14px;
@@ -236,28 +200,28 @@ body {
   padding-left: 14px;
   border-left: 1px solid rgba(255,255,255,0.06);
 }
-.light-mode #tray {
+.light-mode .clockArea {
   border-left-color: rgba(0,0,0,0.06);
 }
-#tray .dt {
+.clockArea .clockWrap {
   text-align: right;
   line-height: 1.2;
 }
-#tray .tm {
+.clockArea .clockMain {
   font-size: 1rem;
-  color: #f0f2f8;
+  color: #eee;
   font-weight: 600;
 }
-#tray .dt2 {
+.clockArea .clockSub {
   font-size: 0.55rem;
   color: #6a6a7e;
 }
-.light-mode #tray .tm {
+.light-mode .clockArea .clockMain {
   color: #1a1a2e;
 }
 
-/* system tray icons - network volume battery */
-#system-tray {
+/* system tray */
+.sysTray {
   display: flex;
   align-items: center;
   gap: 12px;
@@ -266,25 +230,25 @@ body {
   padding-left: 12px;
   border-left: 1px solid rgba(255,255,255,0.06);
 }
-.light-mode #system-tray {
+.light-mode .sysTray {
   border-left-color: rgba(0,0,0,0.06);
 }
-.tray-icon {
+.sysTray .trayIcon {
   cursor: pointer;
   opacity: 0.8;
   transition: 0.2s;
   font-size: 0.9rem;
 }
-.tray-icon:hover {
+.sysTray .trayIcon:hover {
   opacity: 1;
   color: #7a9cff;
 }
-.light-mode .tray-icon:hover {
+.light-mode .sysTray .trayIcon:hover {
   color: #5f7cff;
 }
 
-/* taskbar apps container - scrolls when too many */
-#taskbar-apps {
+/* taskbar apps list */
+#taskbarApps {
   display: flex;
   flex: 1;
   gap: 4px;
@@ -293,16 +257,15 @@ body {
   height: 100%;
   align-items: center;
 }
-#taskbar-apps::-webkit-scrollbar {
+#taskbarApps::-webkit-scrollbar {
   height: 4px;
 }
-#taskbar-apps::-webkit-scrollbar-thumb {
+#taskbarApps::-webkit-scrollbar-thumb {
   background: rgba(255,255,255,0.2);
   border-radius: 4px;
 }
 
-/* taskbar app buttons - i made the corners weird on purpose lol */
-.taskbar-app {
+.appBtn {
   display: flex;
   align-items: center;
   font-size: 0.7rem;
@@ -318,16 +281,16 @@ body {
   gap: 6px;
   font-weight: 500;
 }
-.taskbar-app:hover {
+.appBtn:hover {
   background: rgba(255,255,255,0.04);
-  color: #f0f2f8;
+  color: #eee;
 }
-.taskbar-app.active {
+.appBtn.active {
   background: rgba(122,156,255,0.15);
-  color: #f0f2f8;
+  color: #eee;
   border-color: #7a9cff;
 }
-.taskbar-app .close-btn {
+.appBtn .closeX {
   background: none;
   border: none;
   color: #6a6a7e;
@@ -336,32 +299,31 @@ body {
   padding: 0 2px;
   margin-left: 4px;
 }
-.taskbar-app .close-btn:hover {
+.appBtn .closeX:hover {
   color: #e74c6f;
 }
 
-/* light mode taskbar apps - had to add this because text was invisible before */
-.light-mode .taskbar-app {
+.light-mode .appBtn {
   color: #1a1a2e;
 }
-.light-mode .taskbar-app:hover {
+.light-mode .appBtn:hover {
   background: rgba(0,0,0,0.03);
   color: #0a0a12;
 }
-.light-mode .taskbar-app.active {
+.light-mode .appBtn.active {
   background: rgba(95,124,255,0.15);
   color: #1a1a2e;
   border-color: #5f7cff;
 }
-.light-mode .taskbar-app .close-btn {
+.light-mode .appBtn .closeX {
   color: #7a7a8e;
 }
-.light-mode .taskbar-app .close-btn:hover {
+.light-mode .appBtn .closeX:hover {
   color: #e74c6f;
 }
 
-/* taskbar right click menu */
-#taskbar-context-menu {
+/* right click menus */
+#taskbarRightClickMenu {
   position: fixed;
   bottom: 70px;
   background: #16161f;
@@ -373,17 +335,68 @@ body {
   z-index: 9998;
   display: none;
 }
-#taskbar-context-menu.open {
+#taskbarRightClickMenu.open {
   display: block;
 }
-.light-mode #taskbar-context-menu {
-  background: #ffffff;
+.light-mode #taskbarRightClickMenu {
+  background: #fff;
   border-color: rgba(0,0,0,0.06);
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
 }
 
-/* start menu - solid background no glass */
-#menu {
+#desktopRightClick {
+  position: fixed;
+  background: #16161f;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 10px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  padding: 6px 0;
+  min-width: 180px;
+  z-index: 9998;
+  display: none;
+  animation: popIn 0.12s ease;
+}
+.light-mode #desktopRightClick {
+  background: #fff;
+  border-color: rgba(0,0,0,0.06);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
+}
+#desktopRightClick.open {
+  display: block;
+}
+.ctxItem {
+  padding: 8px 18px;
+  color: #9a9ab0;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: 0.15s;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+.light-mode .ctxItem {
+  color: #4a4a6a;
+}
+.ctxItem:hover {
+  background: rgba(255,255,255,0.02);
+  color: #eee;
+}
+.light-mode .ctxItem:hover {
+  background: rgba(0,0,0,0.02);
+  color: #1a1a2e;
+}
+.ctxDivider {
+  height: 1px;
+  background: rgba(255,255,255,0.06);
+  margin: 4px 12px;
+}
+.light-mode .ctxDivider {
+  background: rgba(0,0,0,0.06);
+}
+
+/* start menu - */
+#startMenuBox {
   position: absolute;
   bottom: 76px;
   left: 20px;
@@ -397,64 +410,52 @@ body {
   display: none;
   flex-direction: column;
   z-index: 1000;
-  animation: menuPop 0.15s ease;
+  animation: popIn 0.15s ease;
 }
-.light-mode #menu {
+.light-mode #startMenuBox {
   background: #f5f6fa;
   border-color: rgba(0,0,0,0.06);
   box-shadow: 0 20px 60px rgba(0,0,0,0.12);
 }
-#menu.open {
+#startMenuBox.open {
   display: flex;
 }
-@keyframes menuPop {
+@keyframes popIn {
   from { opacity: 0; transform: scale(0.96) translateY(8px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
-#menu .mhead {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-weight: 700;
-  font-size: 0.8rem;
-  color: #f0f2f8;
-  margin-bottom: 14px;
-}
-.light-mode #menu .mhead {
-  color: #1a1a2e;
-}
-#menu .search {
+#startMenuBox .searchInput {
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.04);
   border-radius: 8px;
   padding: 10px 14px;
-  color: #f0f2f8;
+  color: #eee;
   font-size: 0.8rem;
   font-family: 'Inter', sans-serif;
   outline: none;
   margin-bottom: 14px;
   transition: 0.2s;
 }
-.light-mode #menu .search {
+.light-mode #startMenuBox .searchInput {
   background: rgba(0,0,0,0.02);
   border-color: rgba(0,0,0,0.06);
   color: #1a1a2e;
 }
-#menu .search:focus {
+#startMenuBox .searchInput:focus {
   border-color: #7a9cff;
   background: rgba(255,255,255,0.04);
 }
-.light-mode #menu .search:focus {
+.light-mode #startMenuBox .searchInput:focus {
   background: rgba(0,0,0,0.03);
 }
-#menu .grid {
+#startMenuBox .appGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(70px, 1fr));
   gap: 6px;
   overflow-y: auto;
   flex: 1;
 }
-#menu .grid .app {
+#startMenuBox .appGrid .appTile {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -469,55 +470,37 @@ body {
   font-size: 0.6rem;
   font-weight: 500;
 }
-#menu .grid .app:hover {
+#startMenuBox .appGrid .appTile:hover {
   background: rgba(255,255,255,0.02);
   border-color: rgba(255,255,255,0.06);
-  color: #f0f2f8;
+  color: #eee;
 }
-.light-mode #menu .grid .app:hover {
+.light-mode #startMenuBox .appGrid .appTile:hover {
   background: rgba(0,0,0,0.02);
   border-color: rgba(0,0,0,0.06);
   color: #1a1a2e;
 }
-#menu .grid .app .ico {
+#startMenuBox .appGrid .appTile .smallIcon {
   font-size: 1.6rem;
   width: 1.6rem;
   text-align: center;
 }
 
-/* shortcuts popup - i used this for the keyboard shortcut list */
-#shortcuts-popup {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: rgba(0,0,0,0.5);
-  backdrop-filter: blur(4px);
-  display: none;
-  justify-content: center;
-  align-items: center;
-  z-index: 9999;
+.wallOpt {
+  display: inline-block;
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  cursor: pointer;
+  border: 2px solid transparent;
+  transition: 0.2s;
 }
-#shortcuts-popup.open {
-  display: flex;
-}
-.shortcuts-content {
-  background: #14141e;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 16px;
-  padding: 24px;
-  min-width: 360px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-  text-align: center;
-}
-.light-mode .shortcuts-content {
-  background: #f5f6fa;
-  border-color: rgba(0,0,0,0.06);
+.wallOpt:hover {
+  border-color: #7a9cff;
 }
 
-/* windows - took a while to get draggable and resizable working */
-.window {
+/* windows */
+.winBox {
   position: absolute;
   min-width: 320px;
   min-height: 180px;
@@ -527,27 +510,27 @@ body {
   box-shadow: 0 25px 50px rgba(0,0,0,0.5);
   display: flex;
   flex-direction: column;
-  animation: windowOpen 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: winOpen 0.25s cubic-bezier(0.4, 0, 0.2, 1);
   z-index: 100;
   overflow: hidden;
 }
-.light-mode .window {
+.light-mode .winBox {
   background: #f0f2f8;
   border-color: rgba(0,0,0,0.06);
   box-shadow: 0 25px 50px rgba(0,0,0,0.15);
 }
-@keyframes windowOpen {
+@keyframes winOpen {
   from { opacity: 0; transform: scale(0.92) translateY(12px); }
   to { opacity: 1; transform: scale(1) translateY(0); }
 }
-.window.closing {
-  animation: windowClose 0.15s ease forwards;
+.winBox.closing {
+  animation: winClose 0.15s ease forwards;
 }
-@keyframes windowClose {
+@keyframes winClose {
   from { opacity: 1; transform: scale(1); }
   to { opacity: 0; transform: scale(0.95) translateY(6px); }
 }
-.window-header {
+.winBox .winHeader {
   padding: 10px 14px;
   background: rgba(255,255,255,0.02);
   border-bottom: 1px solid rgba(255,255,255,0.06);
@@ -557,36 +540,36 @@ body {
   cursor: grab;
   flex-shrink: 0;
 }
-.light-mode .window-header {
+.light-mode .winBox .winHeader {
   background: rgba(0,0,0,0.02);
   border-bottom-color: rgba(0,0,0,0.06);
 }
-.window-header:active {
+.winBox .winHeader:active {
   cursor: grabbing;
 }
-.window-title {
+.winBox .winTitle {
   display: flex;
   align-items: center;
   gap: 8px;
   font-size: 0.75rem;
   font-weight: 600;
-  color: #f0f2f8;
+  color: #eee;
 }
-.light-mode .window-title {
+.light-mode .winBox .winTitle {
   color: #1a1a2e;
 }
-.window-title .dot {
+.winBox .winTitle .dot {
   width: 8px;
   height: 8px;
   border-radius: 50%;
   background: #7a9cff;
   opacity: 0.7;
 }
-.window-controls {
+.winBox .winControls {
   display: flex;
   gap: 6px;
 }
-.window-controls button {
+.winBox .winControls button {
   width: 26px;
   height: 26px;
   border-radius: 6px 4px 6px 4px;
@@ -601,25 +584,25 @@ body {
   font-weight: 500;
   justify-content: center;
 }
-.light-mode .window-controls button {
+.light-mode .winBox .winControls button {
   background: rgba(0,0,0,0.02);
   border-color: rgba(0,0,0,0.06);
   color: #4a4a6a;
 }
-.window-controls button:hover {
+.winBox .winControls button:hover {
   background: rgba(255,255,255,0.04);
-  color: #f0f2f8;
+  color: #eee;
 }
-.light-mode .window-controls button:hover {
+.light-mode .winBox .winControls button:hover {
   background: rgba(0,0,0,0.03);
   color: #1a1a2e;
 }
-.window-controls .close:hover {
+.winBox .winControls .closeBtn:hover {
   background: #e74c6f;
   color: #fff;
   border-color: #e74c6f;
 }
-.window-body {
+.winBox .winBody {
   flex: 1;
   padding: 0;
   overflow: auto;
@@ -629,12 +612,11 @@ body {
   display: flex;
   flex-direction: column;
 }
-.light-mode .window-body {
+.light-mode .winBox .winBody {
   color: #4a4a6a;
 }
 
-/* resize handle - bottom right corner */
-.resize-handle {
+.resizeGrip {
   position: absolute;
   bottom: 0;
   right: 0;
@@ -643,7 +625,7 @@ body {
   cursor: nwse-resize;
   z-index: 10;
 }
-.resize-handle::after {
+.resizeGrip::after {
   content: '';
   position: absolute;
   bottom: 4px;
@@ -655,21 +637,6 @@ body {
   opacity: 0.5;
 }
 
-/* wallpaper picker options */
-.wallpaper-option {
-  display: inline-block;
-  width: 44px;
-  height: 44px;
-  border-radius: 10px;
-  cursor: pointer;
-  border: 2px solid transparent;
-  transition: 0.2s;
-}
-.wallpaper-option:hover {
-  border-color: #7a9cff;
-}
-
-/* scrollbar - simple */
 ::-webkit-scrollbar {
   width: 4px;
 }
@@ -684,19 +651,18 @@ body {
   background: #6a6a7e;
 }
 
-/* calculator */
-.calc-wrapper {
+.calcWrap {
   display: flex;
   height: 100%;
   flex: 1;
 }
-.calc-main {
+.calcMain {
   flex: 2;
   display: flex;
   flex-direction: column;
   padding: 12px;
 }
-.calc-history-side {
+.calcHist {
   flex: 1;
   border-left: 1px solid rgba(255,255,255,0.06);
   padding: 12px;
@@ -705,10 +671,10 @@ body {
   font-size: 0.7rem;
   color: #6a6a7e;
 }
-.light-mode .calc-history-side {
+.light-mode .calcHist {
   border-left-color: rgba(0,0,0,0.06);
 }
-.calc-history-side .hist-title {
+.calcHist .histHead {
   font-weight: 600;
   color: #9a9ab0;
   margin-bottom: 8px;
@@ -719,29 +685,29 @@ body {
   justify-content: space-between;
   align-items: center;
 }
-.calc-history-side .hist-title .clear-history {
+.calcHist .histHead .clearBtn {
   background: none;
   border: none;
   color: #e74c6f;
   cursor: pointer;
   font-size: 0.6rem;
 }
-.calc-history-side .hist-title .clear-history:hover {
+.calcHist .histHead .clearBtn:hover {
   text-decoration: underline;
 }
-.calc-history-side .hist-entry {
+.calcHist .histItem {
   padding: 3px 0;
   border-bottom: 1px solid rgba(255,255,255,0.04);
   font-family: monospace;
   font-size: 0.7rem;
 }
-.calc-grid {
+.calcGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 8px;
   width: 100%;
 }
-.calc-grid .display {
+.calcGrid .disp {
   grid-column: span 4;
   background: rgba(0,0,0,0.3);
   padding: 10px 14px;
@@ -749,52 +715,51 @@ body {
   text-align: right;
   font-size: 1.6rem;
   font-weight: 300;
-  color: #f0f2f8;
+  color: #eee;
   font-family: 'Courier New', monospace;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
-.light-mode .calc-grid .display {
+.light-mode .calcGrid .disp {
   background: rgba(0,0,0,0.05);
   color: #1a1a2e;
 }
-.calc-grid button {
+.calcGrid button {
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.06);
   padding: 12px 8px;
   border-radius: 8px;
   font-size: 1rem;
-  color: #f0f2f8;
+  color: #eee;
   cursor: pointer;
   transition: 0.2s;
   font-family: 'Inter', sans-serif;
   text-align: center;
 }
-.light-mode .calc-grid button {
+.light-mode .calcGrid button {
   background: rgba(0,0,0,0.02);
   border-color: rgba(0,0,0,0.06);
   color: #1a1a2e;
 }
-.calc-grid button:hover {
+.calcGrid button:hover {
   background: rgba(255,255,255,0.04);
 }
-.light-mode .calc-grid button:hover {
+.light-mode .calcGrid button:hover {
   background: rgba(0,0,0,0.03);
 }
-.calc-grid .op {
+.calcGrid .op {
   color: #7a9cff;
 }
-.calc-grid .eq {
+.calcGrid .eq {
   background: #7a9cff;
   color: #fff;
 }
-.calc-grid .eq:hover {
+.calcGrid .eq:hover {
   background: #6a8aff;
 }
 
-/* notes - full window typing area */
-.notes-body {
+.notesBody {
   display: flex;
   flex-direction: column;
   flex: 1;
@@ -803,15 +768,15 @@ body {
   margin: 0 !important;
   background: rgba(0,0,0,0.3);
 }
-.light-mode .notes-body {
+.light-mode .notesBody {
   background: rgba(0,0,0,0.05);
 }
-.notes-body textarea {
+.notesBody textarea {
   width: 100%;
   flex: 1;
   background: transparent;
   border: none;
-  color: #f0f2f8;
+  color: #eee;
   padding: 12px;
   font-family: 'Inter', sans-serif;
   font-size: 0.9rem;
@@ -820,10 +785,10 @@ body {
   outline: none;
   min-height: 150px !important;
 }
-.light-mode .notes-body textarea {
+.light-mode .notesBody textarea {
   color: #1a1a2e;
 }
-.notes-body .note-actions {
+.notesBody .noteActions {
   display: flex;
   gap: 6px;
   padding: 6px 12px;
@@ -831,11 +796,11 @@ body {
   background: rgba(255,255,255,0.02);
   border-top: 1px solid rgba(255,255,255,0.06);
 }
-.light-mode .notes-body .note-actions {
+.light-mode .notesBody .noteActions {
   background: rgba(0,0,0,0.02);
   border-top-color: rgba(0,0,0,0.06);
 }
-.notes-body .note-actions button {
+.notesBody .noteActions button {
   background: rgba(255,255,255,0.02);
   border: 1px solid rgba(255,255,255,0.06);
   padding: 4px 14px;
@@ -847,27 +812,26 @@ body {
   line-height: 1.5;
   height: 28px;
 }
-.light-mode .notes-body .note-actions button {
+.light-mode .notesBody .noteActions button {
   background: rgba(0,0,0,0.02);
   border-color: rgba(0,0,0,0.06);
   color: #4a4a6a;
 }
-.notes-body .note-actions button:hover {
+.notesBody .noteActions button:hover {
   background: rgba(255,255,255,0.04);
-  color: #f0f2f8;
+  color: #eee;
 }
-.light-mode .notes-body .note-actions button:hover {
+.light-mode .notesBody .noteActions button:hover {
   background: rgba(0,0,0,0.03);
   color: #1a1a2e;
 }
 
-/* file manager */
-.file-grid {
+.fileGrid {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
   gap: 12px;
 }
-.file-item {
+.fileItem {
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -881,27 +845,27 @@ body {
   font-size: 0.7rem;
   position: relative;
 }
-.light-mode .file-item {
+.light-mode .fileItem {
   background: rgba(0,0,0,0.02);
   color: #4a4a6a;
 }
-.file-item:hover {
+.fileItem:hover {
   background: rgba(255,255,255,0.02);
   border-color: rgba(255,255,255,0.06);
 }
-.light-mode .file-item:hover {
+.light-mode .fileItem:hover {
   background: rgba(0,0,0,0.02);
   border-color: rgba(0,0,0,0.06);
 }
-.file-item .file-icon {
+.fileItem .fileIcon {
   font-size: 2rem;
 }
-.file-item .file-name {
+.fileItem .fileName {
   margin-top: 4px;
   word-break: break-all;
   text-align: center;
 }
-.file-item .file-delete {
+.fileItem .fileDel {
   position: absolute;
   top: 0;
   right: 0;
@@ -917,16 +881,15 @@ body {
   align-items: center;
   justify-content: center;
 }
-.file-item:hover .file-delete {
+.fileItem:hover .fileDel {
   display: flex;
 }
-.file-item .file-delete:hover {
+.fileItem .fileDel:hover {
   background: #e74c6f;
   color: #fff;
 }
 
-/* notifications */
-#notification-container {
+#notificationContainer {
   position: fixed;
   top: 20px;
   z-index: 9999;
@@ -936,34 +899,34 @@ body {
   gap: 10px;
   max-width: 340px;
 }
-.notification {
+.notif {
   background: #16161f;
   border: 1px solid rgba(255,255,255,0.06);
   border-radius: 10px;
   padding: 14px 18px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.5);
-  animation: notifIn 0.3s ease;
-  color: #f0f2f8;
+  animation: slideIn 0.3s ease;
+  color: #eee;
   font-size: 0.85rem;
 }
-.light-mode .notification {
-  background: #ffffff;
+.light-mode .notif {
+  background: #fff;
   border-color: rgba(0,0,0,0.06);
   color: #1a1a2e;
   box-shadow: 0 12px 40px rgba(0,0,0,0.1);
 }
-.notification .notif-title {
+.notif .notifTitle {
   font-weight: 600;
   font-size: 0.9rem;
 }
-.notification .notif-body {
+.notif .notifBody {
   color: #9a9ab0;
   margin-top: 2px;
 }
-.light-mode .notification .notif-body {
+.light-mode .notif .notifBody {
   color: #4a4a6a;
 }
-.notification .notif-close {
+.notif .notifClose {
   float: right;
   background: none;
   border: none;
@@ -971,80 +934,26 @@ body {
   cursor: pointer;
   font-size: 1rem;
 }
-@keyframes notifIn {
+@keyframes slideIn {
   from { opacity: 0; transform: translateX(30px); }
   to { opacity: 1; transform: translateX(0); }
 }
-.notification-out {
-  animation: notifOut 0.3s ease forwards;
+.notifOut {
+  animation: slideOut 0.3s ease forwards;
 }
-@keyframes notifOut {
+@keyframes slideOut {
   from { opacity: 1; transform: translateX(0); }
   to { opacity: 0; transform: translateX(30px); }
 }
 
-/* context menu - desktop right click */
-#context-menu {
-  position: fixed;
-  background: #16161f;
-  border: 1px solid rgba(255,255,255,0.06);
-  border-radius: 10px;
-  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
-  padding: 6px 0;
-  min-width: 180px;
-  z-index: 9998;
-  display: none;
-  animation: menuPop 0.12s ease;
-}
-.light-mode #context-menu {
-  background: #ffffff;
-  border-color: rgba(0,0,0,0.06);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.12);
-}
-#context-menu.open {
-  display: block;
-}
-.ctx-item {
-  padding: 8px 18px;
-  color: #9a9ab0;
-  font-size: 0.8rem;
-  cursor: pointer;
-  transition: 0.15s;
-  font-weight: 500;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-.light-mode .ctx-item {
-  color: #4a4a6a;
-}
-.ctx-item:hover {
-  background: rgba(255,255,255,0.02);
-  color: #f0f2f8;
-}
-.light-mode .ctx-item:hover {
-  background: rgba(0,0,0,0.02);
-  color: #1a1a2e;
-}
-.ctx-divider {
-  height: 1px;
-  background: rgba(255,255,255,0.06);
-  margin: 4px 12px;
-}
-.light-mode .ctx-divider {
-  background: rgba(0,0,0,0.06);
-}
-
-/* terminal prompt - green in dark, dark gray in light */
-.term-prompt {
+.termPrompt {
   color: #00ff00;
   font-weight: 700;
 }
-.light-mode .term-prompt {
+.light-mode .termPrompt {
   color: #333333;
 }
 
-/* dark mode toggle - with on/off label - finally fixed this thing */
 .toggle {
   width: 44px;
   height: 24px;
@@ -1064,7 +973,7 @@ body {
 .toggle .knob {
   width: 18px;
   height: 18px;
-  background: #f0f2f8;
+  background: #eee;
   border-radius: 50%;
   position: absolute;
   top: 1px;
@@ -1081,41 +990,116 @@ body {
 }
 .toggle.active .knob {
   left: 22px;
-  background: #ffffff;
+  background: #fff;
 }
-.toggle-label {
+.toggleLabel {
   font-size: 0.7rem;
   font-weight: 600;
-  color: var(--text-secondary);
+  color: #9a9ab0;
   min-width: 30px;
   display: inline-block;
   margin-left: 8px;
 }
-.light-mode .toggle-label {
+.light-mode .toggleLabel {
   color: #4a4a6a;
 }
-.toggle.active + .toggle-label {
+.toggle.active + .toggleLabel {
   color: #7a9cff;
 }
 
-/* tablet breakpoint - i added this because things looked weird on my ipad */
-@media (max-width: 900px) {
-  .logo-text { font-size: 0.9rem; }
-  .icon-item { width: 76px; height: 80px; }
-  .icon-item .ico { font-size: 2.4rem; }
+#shortcutPopup {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.5);
+  backdrop-filter: blur(4px);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 9999;
+}
+#shortcutPopup.open {
+  display: flex;
+}
+#shortcutPopup .shortcutContent {
+  background: #14141e;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 16px;
+  padding: 24px;
+  min-width: 360px;
+  box-shadow: 0 20px 60px rgba(0,0,0,0.8);
+  text-align: center;
+}
+.light-mode #shortcutPopup .shortcutContent {
+  background: #f5f6fa;
+  border-color: rgba(0,0,0,0.06);
 }
 
-/* mobile breakpoint - phones */
+@media (max-width: 900px) {
+  .barLogoText {
+    font-size: 0.9rem;
+  }
+  .deskIcon {
+    width: 76px;
+    height: 80px;
+  }
+  .deskIcon .bigIcon {
+    font-size: 2.4rem;
+  }
+}
+
 @media (max-width: 600px) {
-  #taskbar { width: 96%; padding: 0 12px; height: 50px; }
-  #taskbar .logo-text { display: none; }
-  #tray .dt2 { display: none; }
-  #menu { width: 90%; left: 5%; bottom: 70px; }
-  .icon-item { width: 70px; height: 74px; }
-  .icon-item .ico { font-size: 2.2rem; }
-  .icon-item .lbl { font-size: 0.6rem; }
-  .boot-title { font-size: 2rem; }
-  .window { min-width: 260px; }
-  #system-tray { display: flex; gap: 6px; }
-  .tray-icon { font-size: 0.75rem; }
+  #bottomBar {
+    width: 96%;
+    padding: 0 12px;
+    height: 50px;
+  }
+  #bottomBar .barLogoText {
+    display: none;
+  }
+  .clockArea .clockSub {
+    display: none;
+  }
+  #startMenuBox {
+    width: 90%;
+    left: 5%;
+    bottom: 70px;
+  }
+  .deskIcon {
+    width: 70px;
+    height: 74px;
+  }
+  .deskIcon .bigIcon {
+    font-size: 2.2rem;
+  }
+  .deskIcon .iconText {
+    font-size: 0.6rem;
+  }
+  .bigTitle {
+    font-size: 2rem;
+  }
+  .winBox {
+    min-width: 260px;
+  }
+  .sysTray {
+    display: flex;
+    gap: 6px;
+  }
+  .sysTray .trayIcon {
+    font-size: 0.75rem;
+  }
+}
+
+/* i added this because it looked weird without it lol */
+#desktopArea::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: 
+    linear-gradient(rgba(255,255,255,0.008) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.008) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
 }
