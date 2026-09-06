@@ -1,39 +1,33 @@
 # JerOS
 
-## Live Demo
-
-JerOS is available here:
-
 [https://jermybiju.github.io/JerOS/](https://jermybiju.github.io/JerOS/)
 
-A web-based OS I built for starndace
+a web os i built for stardance. works in your browser, no install needed.
 
-## What it does
-A brief rundown of what JerOS can do. It has a desktop with app icons, a calculator with a history sidebar that now shows the full expression, and a file manager that actually opens folders. There's a terminal with basic commands, notes that save to localStorage, a drawing canvas, and a system tray with network, battery, and volume. Also supports light and dark mode, and you can upload custom wallpapers.
+## what it does
 
-## Why I built this
-Wanted to see if I could make a browser act like an operating system. Started with just terminal and notes, slowly added more stuff. Learned a lot about JavaScript and CSS along the way.
+it has a desktop with app icons, calculator with history sidebar that shows the full expression, file manager that opens folders, terminal with basic commands, notes that save to localStorage, drawing canvas, system tray with network battery volume. also dark/light mode and custom wallpaper upload.
 
-## What I wrote myself
-Calculator logic and history sidebar
-File manager folder navigation
-System tray with network/battery APIs  
-Terminal prompt color switching
-Most of the UI styling and layout
- Dark/light mode fixes
+## why i built this
 
- ## What I'd add next
-Window snapping
- Minimize animation
- More terminal commands
- Maybe a music player
- etc.
- 
- ## things that was annoying to fix
-A few things really tested my patience. The calculator history kept showing duplicate headings for some reason, took me a while to figure out why and fix it properly. Then there was the terminal prompt – looked great in dark mode, but in light mode it just vanished. Had to add a separate color just for that. Windows dragging and resizing was another headache, getting all the edge cases right took longer than I expected. And the battery API? Doesn't work on every browser, so I had to add fallbacks to make sure it doesn't break for everyone. Fun times.
+honestly i just wanted to see if i could make a browser act like an os. started with terminal and notes then kept adding stuff. learned a lot about js and css along the way.
 
-## Known issues
-There are a few things that still need work. The volume control is just a mock and won't actually change your system volume because browsers don't allow that. Drawings vanish when you refresh the page since they're not saved anywhere yet. Also, the layout can get a bit messy on really small phone screens – something I need to sort out eventually.
+## stuff i wrote myself
 
-## Credits
-Built by Jermy Biju
+calculator logic, file manager navigation, system tray with network,battery apis, terminal prompt color switching, most of the ui styling, dark/light mode fixes.
+
+## annoying things i had to fix
+
+calculator history kept showing duplicate headings, took me a while to figure out why. terminal prompt looked good in dark mode but vanished in light mode had to add separate colors. windows dragging and resizing was a pain. battery api doesnt work everywhere so had to add fallbacks.
+
+## what i want to add next
+
+window snapping, minimize animation, more terminal commands, maybe a music player if i have time.
+
+## known issues
+
+volume is fake, doesn't actually change system volume. drawings vanish on refresh because they're not saved. layout can get messy on small phone screens.
+
+## credits
+
+built by jermy biju
